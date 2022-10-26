@@ -1,7 +1,7 @@
-site_name: 浙江大学21年秋系统贯通二实验 
-site_url: https://zjusec.gitee.io/sys2lab-21fall/
-repo_url: https://gitee.com/zjusec/sys2lab-21fall
-repo_name: zjusec/sys2lab-21fall
+site_name: 浙江大学22年秋冬系统贯通二实验 
+site_url: https://zju-sys.pages.zjusct.io/sys2lab-22fall-stu/
+repo_url: https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu/
+repo_name: zjusec/sys2lab-22fall-stu
 theme:
   name: material
   features:
@@ -27,10 +27,10 @@ nav:
     - 第一部分: lab2-1.md
     - 第二部分: lab2-2.md
   - 实验指导三: lab3.md
-  - 实验指导四: lab4.md
-  - 实验指导五: lab5.md
-  - 实验指导六: lab6.md
-  - 实验指导七: lab7.md
+#  - 实验指导四: lab4.md
+#  - 实验指导五: lab5.md
+#  - 实验指导六: lab6.md
+#  - 实验指导七: lab7.md
   - 常见问题及解答: faq.md
 markdown_extensions:
   - attr_list
