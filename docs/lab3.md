@@ -176,7 +176,7 @@ $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bas
 
 - 这里可以使用 `wget` 命令获取源码（可能需要使用 `tar` 命令解压）
 
-并且使用 git 工具 clone [本仓库](https://gitee.com/zjusec/sys2lab-21fall)。其中已经准备好了根文件系统的镜像。
+并且使用 git 工具 clone [本仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu)。其中已经准备好了根文件系统的镜像。
 
 > 根文件系统为 Linux Kenrel 提供了基础的文件服务，在启动 Linux Kernel 时是必要的。
 
