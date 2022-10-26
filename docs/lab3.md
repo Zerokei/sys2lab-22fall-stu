@@ -154,9 +154,7 @@ $ make clean        # 清除所有编译好的 object 文件
 请根据 **3.2 实验环境配置** 安装实验环境。
 
 
-<!-- ### 4.1 搭建 Docker 环境
-
-请根据 **3.2 Docker 使用基础** 安装 Docker 环境。然后**参考并理解**以下步骤，导入我们已经准备好的 Docker 镜像：
+<!-- 请根据 **3.2 Docker 使用基础** 安装 Docker 环境。然后**参考并理解**以下步骤，导入我们已经准备好的 Docker 镜像：
 
 ```bash
 # 导入docker镜像
@@ -192,7 +190,7 @@ $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bas
 
 - 这里可以使用 `wget` 命令获取源码（可能需要使用 `tar` 命令解压）
 
-并且使用 git 工具 clone [本仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu)。其中已经准备好了根文件系统的镜像。
+并且使用 git 工具 clone [本仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu)。其中已经准备好了BIOS`fw_jump.bin`以及根文件系统的镜像`rootfs.img`。
 
 > 根文件系统为 Linux Kenrel 提供了基础的文件服务，在启动 Linux Kernel 时是必要的。
 
@@ -200,7 +198,7 @@ $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bas
 $ git clone https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu.git
 $ cd sys2lab-21fall/src/lab3
 $ ls
-rootfs.img  # 已经构建完成的根文件系统的镜像
+fw_jump.bin  rootfs.img
 ```
 
 ### 4.3 编译 linux 内核
