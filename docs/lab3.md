@@ -31,19 +31,6 @@ $ sudo apt install qemu-system-misc gcc-riscv64-linux-gnu gdb-multiarch
 安装完成后，在终端中运行一下`riscv64-linux-gnu-gcc --version; qemu-system-riscv64 --version; gdb-multiarch --version`来检测一下是否所需的软件都已经安装成功。
 如果你的系统与实验环境不同且经过尝试无法安装上述的软件，可以尝试使用[往年实验](http://zjusec.pages.zjusct.io/oslab-stu/lab0/)中的docker镜像。
 
-
-<!-- ### 3.2 Docker 使用基础
-
-#### Docker 基本介绍
-
-Docker 是一种利用容器（container）来进行创建、部署和运行应用的工具。Docker把一个应用程序运行需要的二进制文件、运行需要的库以及其他依赖文件打包为一个包（package），然后通过该包创建容器并运行，由此被打包的应用便成功运行在了Docker容器中。之所以要把应用程序打包，并以容器的方式运行，主要是因为在生产开发环境中，常常会遇到应用程序和系统环境变量以及一些依赖的库文件不匹配，导致应用无法正常运行的问题。Docker带来的好处是只要我们将应用程序打包完成（组装成为Docker imgae），在任意安装了Docker的机器上，都可以通过运行容器的方式来运行该应用程序，因而将依赖、环境变量等带来的应用部署问题解决了。
-
-如果想了解更多 Docker 的详情，请参考[官网](https://www.docker.com/)。
-
-#### Docker 安装
-
-请根据 [https://docs.docker.com/get-docker](https://docs.docker.com/get-docker) 自行在本机安装 Docker 环境。你可以从 [2 实验环境](#2) 中获得实验所需的环境，我们已经为你准备好了 RISC-V 工具链，以及 QEMU 模拟器，使用方法请参见 [4 实验步骤](#4)。 -->
-
 ### 3.3 QEMU 使用基础
 
 #### 什么是QEMU
@@ -152,37 +139,6 @@ $ make clean        # 清除所有编译好的 object 文件
 ### 4.1 搭建实验环境
 
 请根据 **3.2 实验环境配置** 安装实验环境。
-
-
-<!-- 请根据 **3.2 Docker 使用基础** 安装 Docker 环境。然后**参考并理解**以下步骤，导入我们已经准备好的 Docker 镜像：
-
-```bash
-# 导入docker镜像
-$ docker pull alphavake/oslab
-
-# 查看docker镜像
-$ docker images
-REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
-alphavake/oslab   latest    fd86f06da95b   5 weeks ago   3.31GB
-
-# 从镜像创建一个容器
-$ docker run --name oslab -it alphavake/oslab bash   # --name:容器名称 -i:交互式操作 -t:终端
-root@132a140bd724:/#                            # 提示符变为 '#' 表明成功进入容器 后面的字符串根据容器而生成，为容器id
-root@132a140bd724:/# exit (or CTRL+D)           # 从容器中退出 此时运行docker ps，运行容器的列表为空
-
-# 启动处于停止状态的容器
-$ docker start oslab        # oslab为容器名称
-$ docker ps                 # 可看到容器已经启动
-CONTAINER ID   IMAGE             COMMAND   CREATED         STATUS          PORTS     NAMES
-3dfbd9c62a07   alphavake/oslab   "bash"    8 minutes ago   Up 20 seconds             oslab
-
-# 从终端连入 docker 容器
-$ docker exec -it oslab bash
-
-# 挂载本地目录
-# 把用户的 home 目录映射到 docker 镜像内的 have-fun-debugging 目录
-$ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bash    # -v 本地目录:容器内目录
-``` -->
 
 ### 4.2 获取 Linux 源码和已经编译好的文件系统
 
