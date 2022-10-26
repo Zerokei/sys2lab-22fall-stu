@@ -1,4 +1,4 @@
-# 浙江大学21年秋系统贯通二实验
+# 浙江大学22年秋系统贯通二实验
 
 本[仓库](https://gitee.com/zjusec/sys2lab-21fall)是浙江大学21年秋**系统贯通二**课程的教学仓库，包含所有实验文档和公开代码。仓库目录结构：
 
@@ -9,7 +9,7 @@
 └── src/        # 公开代码
 ```
 
-实验文档已经部署在了[gitee pages](https://zjusec.gitee.io/sys2lab-21fall)上，方便大家阅读。
+实验文档已经部署在了[zju-git pages](http://zju-sys.pages.zjusct.io/sys2lab-22fall-stu/)上，方便大家阅读。
 
 
 ## 本地渲染文档

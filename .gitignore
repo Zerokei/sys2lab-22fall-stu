@@ -1,5 +1,6 @@
 .vscode/
 .DS_Store
 site/
+public/
 .idea/
 .gdbinit
