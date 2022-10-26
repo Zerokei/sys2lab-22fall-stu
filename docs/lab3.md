@@ -26,9 +26,9 @@
 在接下来的操作系统实验中，我们需要使用RISC-V工具链以及QEMU模拟器来完成。
 在终端中输入一下命令完成安装：
 ```
-$ sudo apt install qemu-system-misc gcc-riscv64-linux-gnu
+$ sudo apt install qemu-system-misc gcc-riscv64-linux-gnu gdb-multiarch
 ```
-安装完成后，在终端中运行一下`riscv64-linux-gnu-gcc --version; qemu-system-riscv64 --version`来检测一下是否所需的软件都已经安装成功。
+安装完成后，在终端中运行一下`riscv64-linux-gnu-gcc --version; qemu-system-riscv64 --version; gdb-multiarch --version`来检测一下是否所需的软件都已经安装成功。
 如果你的系统与实验环境不同且经过尝试无法安装上述的软件，可以尝试使用[往年实验](http://zjusec.pages.zjusct.io/oslab-stu/lab0/)中的docker镜像。
 
 
@@ -61,7 +61,7 @@ $ qemu-system-riscv64 \
     -kernel path/to/linux/arch/riscv/boot/Image \
     -device virtio-blk-device,drive=hd0 \
     -append "root=/dev/vda ro console=ttyS0" \
-    -bios default \
+    -bios fw_jump.bin \
     -drive file=rootfs.img,format=raw,id=hd0 \
     -S -s
 ```
@@ -74,7 +74,7 @@ $ qemu-system-riscv64 \
 - `-drive, file=<file_name>`: 使用 `file_name` 作为文件系统
 - `-S`: 启动时暂停CPU执行
 - `-s`: -gdb tcp::1234 的简写
-- `-bios default`: 使用默认的 OpenSBI firmware 作为 bootloader
+- `-bios default`: 使用fw_jump.bin作为bootloader
 
 更多参数信息可以参考[这里](https://www.qemu.org/docs/master/system/index.html)
 
@@ -128,7 +128,7 @@ GNU 调试器（英语：GNU Debugger，缩写：gdb）是一个由 GNU 开源�
 #### 常见参数
 
 - `ARCH` 指定架构，可选的值包括arch目录下的文件夹名，如 x86、arm、arm64 等，不同于 arm 和 arm64，32 位和 64 位的RISC-V共用 `arch/riscv` 目录，通过使用不同的 config 可以编译 32 位或 64 位的内核。
-- `CROSS_COMPILE` 指定使用的交叉编译工具链，例如指定 `CROSS_COMPILE=riscv64-unknown-linux-gnu-`，则编译时会采用 `riscv64-unknown-linux-gnu-gcc` 作为编译器，编译可以在 RISC-V 64 位平台上运行的 kernel。
+- `CROSS_COMPILE` 指定使用的交叉编译工具链，例如指定 `CROSS_COMPILE=riscv64-linux-gnu-`，则编译时会采用 `riscv64-linux-gnu-gcc` 作为编译器，编译可以在 RISC-V 64 位平台上运行的 kernel。
 
 #### 常用的 Linux 下的编译选项
 
@@ -149,7 +149,12 @@ $ make clean        # 清除所有编译好的 object 文件
 
 **在执行每一条命令前，请你对将要进行的操作进行思考，给出的命令不需要全部执行，并且不是所有的命令都可以无条件执行，请不要直接复制粘贴命令去执行。**
 
-### 4.1 搭建 Docker 环境
+### 4.1 搭建实验环境
+
+请根据 **3.2 实验环境配置** 安装实验环境。
+
+
+<!-- ### 4.1 搭建 Docker 环境
 
 请根据 **3.2 Docker 使用基础** 安装 Docker 环境。然后**参考并理解**以下步骤，导入我们已经准备好的 Docker 镜像：
 
@@ -179,7 +184,7 @@ $ docker exec -it oslab bash
 # 挂载本地目录
 # 把用户的 home 目录映射到 docker 镜像内的 have-fun-debugging 目录
 $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bash    # -v 本地目录:容器内目录
-```
+``` -->
 
 ### 4.2 获取 Linux 源码和已经编译好的文件系统
 
@@ -192,7 +197,7 @@ $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bas
 > 根文件系统为 Linux Kenrel 提供了基础的文件服务，在启动 Linux Kernel 时是必要的。
 
 ```bash
-$ git clone https://gitee.com/zjusec/sys2lab-21fall
+$ git clone https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu.git
 $ cd sys2lab-21fall/src/lab3
 $ ls
 rootfs.img  # 已经构建完成的根文件系统的镜像
@@ -203,8 +208,8 @@ rootfs.img  # 已经构建完成的根文件系统的镜像
 ```bash
 $ pwd
 path/to/lab3/linux
-$ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- defconfig    # 生成配置
-$ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- -j$(nproc)   # 编译
+$ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- defconfig    # 生成配置
+$ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- -j$(nproc)   # 编译
 ```
 
 > 使用多线程编译一般会耗费大量内存，如果 `-j` 选项导致内存耗尽 (out of memory)，请尝试调低线程数，比如 `-j4`, `-j8` 等。
@@ -214,7 +219,7 @@ $ make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- -j$(nproc)   # 编译
 ```bash
 $ qemu-system-riscv64 -nographic -machine virt -kernel path/to/linux/arch/riscv/boot/Image \
     -device virtio-blk-device,drive=hd0 -append "root=/dev/vda ro console=ttyS0" \
-    -bios default -drive file=rootfs.img,format=raw,id=hd0
+    -bios fw_jump.bin -drive file=rootfs.img,format=raw,id=hd0
 ```
 退出 QEMU 的方法为：使用 Ctrl+A，**松开**后再按下 X 键即可退出 QEMU。
 
@@ -226,11 +231,11 @@ $ qemu-system-riscv64 -nographic -machine virt -kernel path/to/linux/arch/riscv/
 # Terminal 1
 $ qemu-system-riscv64 -nographic -machine virt -kernel path/to/linux/arch/riscv/boot/Image \
     -device virtio-blk-device,drive=hd0 -append "root=/dev/vda ro console=ttyS0" \
-    -bios default -drive file=rootfs.img,format=raw,id=hd0 -S -s
+    -bios fw_jump.bin -drive file=rootfs.img,format=raw,id=hd0 -S -s
 
 # Terminal 2
-$ riscv64-unknown-linux-gnu-gdb path/to/linux/vmlinux
-(gdb) target remote :1234   # 连接 qemu
+$ gdb-multiarch path/to/linux/vmlinux
+(gdb) target remote localhost:1234   # 连接 qemu
 (gdb) b start_kernel        # 设置断点
 (gdb) continue              # 继续执行
 (gdb) quit                  # 退出 gdb
@@ -244,8 +249,8 @@ $ riscv64-unknown-linux-gnu-gdb path/to/linux/vmlinux
 
 ## 思考题
 
-1. 使用 `riscv64-unknown-elf-gcc` 编译单个 `.c` 文件
-2. 使用 `riscv64-unknown-elf-objdump` 反汇编 1 中得到的编译产物
+1. 使用 `riscv64-linux-gnu-gcc` 编译单个 `.c` 文件
+2. 使用 `riscv64-linux-gnu-objdump` 反汇编 1 中得到的编译产物
 3. 调试 Linux 时:
     1. 在 GDB 中查看汇编代码
     2. 在 0x80000000 处下断点
