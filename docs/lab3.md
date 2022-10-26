@@ -214,5 +214,7 @@ $ gdb-multiarch path/to/linux/vmlinux
     6. 继续运行直到触发 0x80200000 处的断点
     7. 单步调试一次
     8. 退出 QEMU
-4. 使用 `make` 工具清除 Linux 的构建产物
-5. `vmlinux` 和 `Image` 的关系和区别是什么？
+4. 学习Makefile的基本使用：
+    1. 观察可用的target，应该使用`make ?`来清除Linux的构建产物？
+    2. 默认情况下，内核编译显示的是简略信息（例如：`CC      init/main.o`），应该使用 `make ?`来显示Linux详细的编译过程呢？
+<!-- 5. `vmlinux` 和 `Image` 的关系和区别是什么？ -->
