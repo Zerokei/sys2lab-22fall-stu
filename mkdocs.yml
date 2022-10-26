@@ -1,5 +1,5 @@
 site_name: 浙江大学22年秋冬系统贯通二实验 
-site_url: https://zju-sys.pages.zjusct.io/sys2lab-22fall-stu/
+site_url: http://zju-sys.pages.zjusct.io/sys2lab-22fall-stu/
 site_dir: public # 设置 site_dir 配合 gitlab CI
 repo_url: https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu/
 repo_name: zjusec/sys2lab-22fall-stu
