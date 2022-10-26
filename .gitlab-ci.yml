@@ -6,7 +6,7 @@ before_script:
 pages:
   stage: deploy
   script:
-    - git push git@github.com:Zerokei/sys2lab-22fall-stu.git master:master
+    - git push git@github.com:Zerokei/sys2lab-22fall-stu.git
     - mkdocs build --strict --verbose
   artifacts:
     paths:
