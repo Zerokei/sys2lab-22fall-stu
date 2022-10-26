@@ -6,7 +6,7 @@ before_script:
 pages:
   stage: deploy
   script:
-    - git push 
+    - git push sync master:master
     - mkdocs build --strict --verbose
   artifacts:
     paths:
