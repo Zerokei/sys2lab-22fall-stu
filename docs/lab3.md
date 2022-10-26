@@ -8,8 +8,8 @@
 
 ## 2 实验环境
 
-- Docker
-- 实验环境镜像[仓库](https://github.com/PAN-Ziyue/oslab-env)
+- Ubuntu 20.04, 22.04
+<!-- - 实验环境镜像[仓库](https://github.com/PAN-Ziyue/oslab-env) -->
 
 ## 3 实验基础知识介绍
 
@@ -21,7 +21,18 @@
 2. [GNU/Linux Command-Line Tools Summary](https://tldp.org/LDP/GNU-Linux-Tools-Summary/html/index.html)
 3. [Basics of UNIX](https://github.com/berkeley-scf/tutorial-unix-basics)
 
-### 3.2 Docker 使用基础
+### 3.2 实验环境配置
+
+在接下来的操作系统实验中，我们需要使用RISC-V工具链以及QEMU模拟器来完成。
+在终端中输入一下命令完成安装：
+```
+$ sudo apt install qemu-system-misc gcc-riscv64-linux-gnu
+```
+安装完成后，在终端中运行一下`riscv64-linux-gnu-gcc --version; qemu-system-riscv64 --version`来检测一下是否所需的软件都已经安装成功。
+如果你的系统与实验环境不同且经过尝试无法安装上述的软件，可以尝试使用[往年实验](http://zjusec.pages.zjusct.io/oslab-stu/lab0/)中的docker镜像。
+
+
+<!-- ### 3.2 Docker 使用基础
 
 #### Docker 基本介绍
 
@@ -31,7 +42,7 @@ Docker 是一种利用容器（container）来进行创建、部署和运行应�
 
 #### Docker 安装
 
-请根据 [https://docs.docker.com/get-docker](https://docs.docker.com/get-docker) 自行在本机安装 Docker 环境。你可以从 [2 实验环境](#2) 中获得实验所需的环境，我们已经为你准备好了 RISC-V 工具链，以及 QEMU 模拟器，使用方法请参见 [4 实验步骤](#4)。
+请根据 [https://docs.docker.com/get-docker](https://docs.docker.com/get-docker) 自行在本机安装 Docker 环境。你可以从 [2 实验环境](#2) 中获得实验所需的环境，我们已经为你准备好了 RISC-V 工具链，以及 QEMU 模拟器，使用方法请参见 [4 实验步骤](#4)。 -->
 
 ### 3.3 QEMU 使用基础
 
