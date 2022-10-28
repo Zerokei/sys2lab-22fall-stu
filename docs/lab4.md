@@ -322,7 +322,7 @@ sbi_ecall 函数中，需要完成以下内容：
 3. OpenSBI 的返回结果会存放在寄存器 a0 ， a1 中，其中 a0 为 error code， a1 为返回值， 我们用 sbiret 来接受这两个返回值。
 
 同学们可以参照内联汇编的示例一完成该函数的编写。
-编写成功后，调用 `sbi_ecall(0x1, 0x0， 0x30, 0, 0， 0， 0， 0)` 将会输出字符'0'。
+编写成功后，调用 `sbi_ecall(0x1, 0x0， 0x30, 0, 0, 0, 0, 0)` 将会输出字符'0'。
 其中`0x1`代表 `sbi_console_putchar` 的 ExtensionID，`0x0`代表FunctionID, 0x30代表'0'的ascii值，其余参数填0。
 
 请在 `arch/riscv/kernel/sbi.c` 中补充 `sbi_ecall()`。
