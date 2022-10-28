@@ -6,7 +6,7 @@
 * 学习 Makefile 相关知识， 补充项目中的 Makefile 文件， 来完成对整个工程的管理。
 ## 2 实验环境
 
-Docker in Lab3
+- Ubuntu 20.04, 22.04
 
 ## 3 实验基础知识介绍
 
@@ -49,13 +49,14 @@ Bootloader 是操作系统内核运行之前，用于初始化硬件，加载操
 ```
    Hardware             RISC-V M Mode           RISC-V S Mode 
 +------------+         +--------------+         +----------+
-|  Power On  |  ---->  |  Bootloader  |  ---->  |  Kernel  |
+|   BootROM  |  ---->  |  Bootloader  |  ---->  |  Kernel  |
 +------------+         +--------------+         +----------+
 ```
 
 ### 3.4 SBI 与 OpenSBI
 
-SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 OpenSBI 是一个 RISC-V SBI 规范的开源实现。RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。
+SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 [OpenSBI](https://github.com/riscv-software-src/opensbi) 是一个 RISC-V SBI 规范的开源实现。
+RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。
 
 简单的说，为了使操作系统内核适配不同硬件，OpenSBI 提出了一系列规范对 M-mode 下的硬件进行了统一定义，运行在 S-mode 下的内核可以按照这些规范对不同硬件进行操作。
 
@@ -65,11 +66,12 @@ SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境�
 
 在实验中，virt 配置的 QEMU 会将 OpenSBI 代码加载到 0x80000000 起始处，OpenSBI 初始化完成后，会跳转到 0x80200000 处继续执行。因此，我们所编写的代码需要放到 0x80200000 处。
 
-如果你对 RISC-V 架构的 Boot 流程有更多的好奇，可以参考这份 [bootflow](https://riscv.org/wp-content/uploads/2019/12/Summit_bootflow.pdf)。
+如果你对在 RISC-V 架构上从零构造 Linux 系统有更多的好奇，可以参考ZJV团队开发的 RISC-V 模拟器开发环境套件 [riscv-rss-sdk](https://github.com/riscv-zju/riscv-rss-sdk)。
 
 ### 3.5 Makefile
 
-Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在 Lab3 中我们已经使用了 make 工具利用 Makefile 文件来管理整个工程。在阅读了 [Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html) 这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。
+Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在 Lab3 中我们已经使用了 make 工具利用 Makefile 文件来管理整个工程。
+在阅读了 [Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html) 这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。
 
 ### 3.6 内联汇编
 内联汇编（通常由 asm 或者 \_\_asm\_\_ 关键字引入）提供了将汇编语言源代码嵌入 C 程序的能力。
@@ -349,8 +351,9 @@ sbi_ecall 函数中，需要完成以下内容：
 
 ## 思考题
 
-1. 请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？
-2. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值
+1. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值，比较他们的地址是否符合你的预期
+2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的，内存中bss段的内容是0吗？
+3. 请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？
 
 ## 作业提交
 同学需要提交实验报告以及整个工程代码。
