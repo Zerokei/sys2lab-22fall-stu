@@ -13,7 +13,7 @@ SECTIONS
     . = BASE_ADDR;
 
     /* 记录kernel代码的起始地址 */
-    _skernel = .;
+    _start = .;
 
     /* ALIGN(0x1000) 表示4KB对齐 */
     /* _stext, _etext 分别记录了text段的起始与结束地址 */
@@ -45,7 +45,6 @@ SECTIONS
     .bss : ALIGN(0x1000){
         _sbss = .;
 
-        *(.bss.stack)
         *(.sbss .sbss.*)
         *(.bss .bss.*)
         
@@ -53,5 +52,5 @@ SECTIONS
     }
 
     /* 记录kernel代码的结束地址 */
-    _ekernel = .;
+    _end = .;
 }

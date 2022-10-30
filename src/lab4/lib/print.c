@@ -2,9 +2,11 @@
 #include "sbi.h"
 
 void puts(char *s) {
-    // unimplemented
+  #error "Still have unfilled code!"
+  // unimplemented
 }
 
 void puti(int x) {
-    // unimplemented
+  #error "Still have unfilled code!"
+  // unimplemented
 }

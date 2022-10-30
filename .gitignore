@@ -4,3 +4,6 @@ site/
 public/
 .idea/
 .gdbinit
+System.map
+*.o
+vmlinux*

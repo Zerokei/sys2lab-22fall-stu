@@ -1,15 +1,18 @@
 export
-CROSS_=riscv64-unknown-elf-
-GCC=${CROSS_}gcc
-LD=${CROSS_}ld
-OBJCOPY=${CROSS_}objcopy
+CROSS	:=	riscv64-linux-gnu-
+GCC		:=	${CROSS}gcc
+LD		:=	${CROSS}ld
+OBJCOPY	:=	${CROSS}objcopy
+OBJDUMP	:=	${CROSS}objdump
 
-ISA=rv64imafd
-ABI=lp64
+ISA		:=	rv64imafd
+ABI		:=	lp64
 
-INCLUDE = -I $(shell pwd)/include -I $(shell pwd)/arch/riscv/include
-CF = -march=$(ISA) -mabi=$(ABI) -mcmodel=medany -fno-builtin -ffunction-sections -fdata-sections -nostartfiles -nostdlib -nostdinc -static -lgcc -Wl,--nmagic -Wl,--gc-sections 
-CFLAG = ${CF} ${INCLUDE}
+INCLUDE := 	-I $(shell pwd)/include -I $(shell pwd)/arch/riscv/include
+CF 		:= 	-g3 -march=$(ISA) -mabi=$(ABI) -mcmodel=medany 		\
+			-fno-builtin -ffunction-sections -fdata-sections 	\
+			-nostartfiles -nostdlib -nostdinc -static -lgcc -Wl,--nmagic -Wl,--gc-sections
+CFLAG 	:= 	${CF} ${INCLUDE}
 
 .PHONY:all run debug clean
 all:
@@ -31,5 +34,6 @@ clean:
 	${MAKE} -C init clean
 	${MAKE} -C arch/riscv clean
 	$(shell test -f vmlinux && rm vmlinux)
+	$(shell test -f vmlinux.asm && rm vmlinux.asm)
 	$(shell test -f System.map && rm System.map)
 	@echo -e '\n'Clean Finished
