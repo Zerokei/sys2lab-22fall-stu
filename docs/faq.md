@@ -10,7 +10,11 @@
 
 这种情况请使用 `wget` 等工具将 Linux 源码下载至容器内目录**而非共享目录**，然后执行编译。
 
-## 3 QEMU+GDB 使用 `si` 单指令调试遇到模式切换失效
+## 3 运行时出现 `localhost:1234: Connection timed out.`
+
+检查 qemu 启动时是否开启了 `-s` 选项。
+
+## 4 QEMU+GDB 使用 `si` 单指令调试遇到模式切换失效
 
 在遇到诸如 `mret`, `sret` 等指令造成的模式切换时，`si` 指令会失效，可能表现为程序开始不停跑，影响对程序运行行为的判断。
 
@@ -28,15 +32,15 @@ Breakpoint 1, 0x000000008000babe in _never_gonna_give_you_up ()
 
 这样就可以看到断点被触发，可以继续调试了。
 
-## 4. Function Prologue and Epilogue in C
+## 5. Function Prologue and Epilogue in C
 
 在实验中C语言编译出的函数会多出一部分非程序的代码，集中在函数的开头与结尾，这被称作`Prologue`和`Epilogue`，他们起到了分配栈空间等作用，具体的信息可以查看这个[回答](https://stackoverflow.com/questions/14765406/function-prologue-and-epilogue-in-c)。
 
-## 5. mtime & mtimecmp
+## 6. mtime & mtimecmp
 
 在QEMU中也可以方便地查看`mtime`和`mtimecmp`的值，`mtime`和`mtimecmp`的实现是通过MMIO(Memory-mapped I/O)的方式实现的，在QEMU的默认设置中`mtime`的地址位于`0x200bff8`，读这个地址的值就是`mtime`的值(实验中是一个64bit的量)，`mtimecmp`的地址在`0x2004000`。
 
-## 6. 杂项
+## 7. 杂项
 
 * 设置sp寄存器是为了给C语言提供运行环境，需要在执行任何C语言编写的函数前准备好栈
 * C语言默认的整数常数类型为整形，如果需要使用长整形使用`1L << 63`

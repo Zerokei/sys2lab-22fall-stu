@@ -31,19 +31,6 @@ $ sudo apt install qemu-system-misc gcc-riscv64-linux-gnu gdb-multiarch
 安装完成后，在终端中运行一下`riscv64-linux-gnu-gcc --version; qemu-system-riscv64 --version; gdb-multiarch --version`来检测一下是否所需的软件都已经安装成功。
 如果你的系统与实验环境不同且经过尝试无法安装上述的软件，可以尝试使用[往年实验](http://zjusec.pages.zjusct.io/oslab-stu/lab0/)中的docker镜像。
 
-
-<!-- ### 3.2 Docker 使用基础
-
-#### Docker 基本介绍
-
-Docker 是一种利用容器（container）来进行创建、部署和运行应用的工具。Docker把一个应用程序运行需要的二进制文件、运行需要的库以及其他依赖文件打包为一个包（package），然后通过该包创建容器并运行，由此被打包的应用便成功运行在了Docker容器中。之所以要把应用程序打包，并以容器的方式运行，主要是因为在生产开发环境中，常常会遇到应用程序和系统环境变量以及一些依赖的库文件不匹配，导致应用无法正常运行的问题。Docker带来的好处是只要我们将应用程序打包完成（组装成为Docker imgae），在任意安装了Docker的机器上，都可以通过运行容器的方式来运行该应用程序，因而将依赖、环境变量等带来的应用部署问题解决了。
-
-如果想了解更多 Docker 的详情，请参考[官网](https://www.docker.com/)。
-
-#### Docker 安装
-
-请根据 [https://docs.docker.com/get-docker](https://docs.docker.com/get-docker) 自行在本机安装 Docker 环境。你可以从 [2 实验环境](#2) 中获得实验所需的环境，我们已经为你准备好了 RISC-V 工具链，以及 QEMU 模拟器，使用方法请参见 [4 实验步骤](#4)。 -->
-
 ### 3.3 QEMU 使用基础
 
 #### 什么是QEMU
@@ -153,46 +140,13 @@ $ make clean        # 清除所有编译好的 object 文件
 
 请根据 **3.2 实验环境配置** 安装实验环境。
 
-
-<!-- ### 4.1 搭建 Docker 环境
-
-请根据 **3.2 Docker 使用基础** 安装 Docker 环境。然后**参考并理解**以下步骤，导入我们已经准备好的 Docker 镜像：
-
-```bash
-# 导入docker镜像
-$ docker pull alphavake/oslab
-
-# 查看docker镜像
-$ docker images
-REPOSITORY        TAG       IMAGE ID       CREATED       SIZE
-alphavake/oslab   latest    fd86f06da95b   5 weeks ago   3.31GB
-
-# 从镜像创建一个容器
-$ docker run --name oslab -it alphavake/oslab bash   # --name:容器名称 -i:交互式操作 -t:终端
-root@132a140bd724:/#                            # 提示符变为 '#' 表明成功进入容器 后面的字符串根据容器而生成，为容器id
-root@132a140bd724:/# exit (or CTRL+D)           # 从容器中退出 此时运行docker ps，运行容器的列表为空
-
-# 启动处于停止状态的容器
-$ docker start oslab        # oslab为容器名称
-$ docker ps                 # 可看到容器已经启动
-CONTAINER ID   IMAGE             COMMAND   CREATED         STATUS          PORTS     NAMES
-3dfbd9c62a07   alphavake/oslab   "bash"    8 minutes ago   Up 20 seconds             oslab
-
-# 从终端连入 docker 容器
-$ docker exec -it oslab bash
-
-# 挂载本地目录
-# 把用户的 home 目录映射到 docker 镜像内的 have-fun-debugging 目录
-$ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bash    # -v 本地目录:容器内目录
-``` -->
-
 ### 4.2 获取 Linux 源码和已经编译好的文件系统
 
 从 [https://www.kernel.org](https://www.kernel.org) 下载最新的 Linux 源码。
 
 - 这里可以使用 `wget` 命令获取源码（可能需要使用 `tar` 命令解压）
 
-并且使用 git 工具 clone [本仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu)。其中已经准备好了根文件系统的镜像。
+并且使用 git 工具 clone [本仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu)。其中已经准备好了BIOS`fw_jump.bin`以及根文件系统的镜像`rootfs.img`。
 
 > 根文件系统为 Linux Kenrel 提供了基础的文件服务，在启动 Linux Kernel 时是必要的。
 
@@ -200,7 +154,7 @@ $ docker run --name oslab -it -v ${HOME}:/have-fun-debugging alphavake/oslab bas
 $ git clone https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu.git
 $ cd sys2lab-21fall/src/lab3
 $ ls
-rootfs.img  # 已经构建完成的根文件系统的镜像
+fw_jump.bin  rootfs.img
 ```
 
 ### 4.3 编译 linux 内核
@@ -245,7 +199,7 @@ $ gdb-multiarch path/to/linux/vmlinux
 
 - 请各位同学独立完成作业，任何抄袭行为都将使本次作业判为0分。
 - 编译内核并用 GDB + QEMU 调试，在内核初始化过程中设置断点，对内核的启动过程进行跟踪，并尝试使用gdb的各项命令（如backtrace、finish、frame、info、break、display、next、layout等）。
-- 在学在浙大中提交 pdf 格式的实验报告，记录实验过程并截图（4.1-4.4）.，对每一步的命令以及结果进行必要的解释，记录遇到的问题和心得体会。
+- 在学在浙大中提交 pdf 格式的实验报告，记录实验过程并截图（4.1-4.4），对每一步的命令以及结果进行必要的解释，记录遇到的问题和心得体会。
 
 ## 思考题
 
@@ -260,5 +214,7 @@ $ gdb-multiarch path/to/linux/vmlinux
     6. 继续运行直到触发 0x80200000 处的断点
     7. 单步调试一次
     8. 退出 QEMU
-4. 使用 `make` 工具清除 Linux 的构建产物
-5. `vmlinux` 和 `Image` 的关系和区别是什么？
+4. 学习Makefile的基本使用：
+    1. 观察可用的target，应该使用`make ?`来清除Linux的构建产物？
+    2. 默认情况下，内核编译显示的是简略信息（例如：`CC      init/main.o`），应该使用 `make ?`来显示Linux详细的编译过程呢？
+<!-- 5. `vmlinux` 和 `Image` 的关系和区别是什么？ -->

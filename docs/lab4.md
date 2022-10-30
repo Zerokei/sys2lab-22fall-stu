@@ -6,18 +6,18 @@
 * 学习 Makefile 相关知识， 补充项目中的 Makefile 文件， 来完成对整个工程的管理。
 ## 2 实验环境
 
-Docker in Lab3
+- Ubuntu 20.04, 22.04
 
 ## 3 实验基础知识介绍
 
-### 3.1 前置知识
+### 3.1 RISC-V 架构
 
-为了顺利完成 OS 实验，我们需要一些前置知识和较多调试技巧。在 OS 实验中我们需要 **RISC-V汇编** 的前置知识，课堂上不会讲授，请同学们通过阅读以下四份文档自学：
+实验中涉及的RISC-V相关的知识来自于以下文档：
 
 - [RISC-V Assembly Programmer's Manual](https://github.com/riscv-non-isa/riscv-asm-manual/blob/master/riscv-asm.md)
 - [RISC-V Unprivileged Spec](https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf)
-- [RISC-V Privileged Spec](https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMFDQC-and-Priv-v1.11/riscv-privileged-20190608.pdf)
-- [RISC-V 手册（中文）](http://crva.ict.ac.cn/documents/RISC-V-Reader-Chinese-v2p1.pdf)
+- [RISC-V Privileged Spec](https://github.com/riscv/riscv-isa-manual/releases/download/Priv-v1.12/riscv-privileged-20211203.pdf)
+
 
 > 注：RISC-V 手册（中文）中有一些 Typo，请谨慎参考。
 
@@ -29,7 +29,7 @@ RISC-V 有三个特权模式：U (user) 模式、S (supervisor) 模式和 M (mac
 | ------ | -------- |----------------- | ------------ |
 |   0    |    00    | User/Application |      U       |
 |   1    |    01    |     Supervisor   |      S       |
-|   2    |    10    |      Reserved    |              |
+|   2    |    10    |     Hypervisor   |      H       |
 |   3    |    11    |      Machine     |      M       |
 
 其中：
@@ -49,27 +49,29 @@ Bootloader 是操作系统内核运行之前，用于初始化硬件，加载操
 ```
    Hardware             RISC-V M Mode           RISC-V S Mode 
 +------------+         +--------------+         +----------+
-|  Power On  |  ---->  |  Bootloader  |  ---->  |  Kernel  |
+|   BootROM  |  ---->  |  Bootloader  |  ---->  |  Kernel  |
 +------------+         +--------------+         +----------+
 ```
 
 ### 3.4 SBI 与 OpenSBI
 
-SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 OpenSBI 是一个 RISC-V SBI 规范的开源实现。RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。
+SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 [OpenSBI](https://github.com/riscv-software-src/opensbi) 是一个 RISC-V SBI 规范的开源实现。
+RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。
 
 简单的说，为了使操作系统内核适配不同硬件，OpenSBI 提出了一系列规范对 M-mode 下的硬件进行了统一定义，运行在 S-mode 下的内核可以按照这些规范对不同硬件进行操作。
 
 ![RISC-V SBI 介绍](pic/lab4-riscv-sbi.png)
 
-为降低实验难度，我们选择 OpenSBI 作为 Bootloader 来完成机器启动时 M-mode 下的硬件初始化与寄存器设置，并使用 OpenSBI 所提供的接口完成诸如字符打印的操作。
+在启动 qemu 时，我们指定的 BIOS 就是编译过后的 OpenSBI，它作为 Bootloader 会完成 M-mode 下的硬件初始化与寄存器设置，并使用 M 模式下基本系统调用服务，例如字符打印。
 
-在实验中，QEMU 已经内置了 OpenSBI 作为 Bootloader，我们可以使用 `-bios default` 启用。如果启用，QEMU 会将 OpenSBI 代码加载到 0x80000000 起始处。OpenSBI 初始化完成后，会跳转到 0x80200000 处（也就是 Kernel 的起始地址）。因此，我们所编译的代码需要放到 0x80200000 处。
+在实验中，virt 配置的 QEMU 会将 OpenSBI 代码加载到 0x80000000 起始处，OpenSBI 初始化完成后，会跳转到 0x80200000 处继续执行。因此，我们所编写的代码需要放到 0x80200000 处。
 
-如果你对 RISC-V 架构的 Boot 流程有更多的好奇，可以参考这份 [bootflow](https://riscv.org/wp-content/uploads/2019/12/Summit_bootflow.pdf)。
+如果你对在 RISC-V 架构上从零构造 Linux 系统有更多的好奇，可以参考ZJV团队开发的 RISC-V 模拟器开发环境套件 [riscv-rss-sdk](https://github.com/riscv-zju/riscv-rss-sdk)。
 
 ### 3.5 Makefile
 
-Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在 Lab3 中我们已经使用了 make 工具利用 Makefile 文件来管理整个工程。在阅读了 [Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html) 这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。
+Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在 Lab3 中我们已经使用了 make 工具利用 Makefile 文件来管理整个工程。
+在阅读了 [Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html) 这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。
 
 ### 3.6 内联汇编
 内联汇编（通常由 asm 或者 \_\_asm\_\_ 关键字引入）提供了将汇编语言源代码嵌入 C 程序的能力。
@@ -253,7 +255,7 @@ ffffffe000000190 t debug_kernel
 ## 4 实验步骤
 
 ### 4.1 准备工程
-从 [repo](https://gitee.com/zjusec/sys2lab-21fall) 同步实验代码框架， 参考 Lab3 中，将工程代码映射进容器中。这样就可以方便的在本地开发，同时使用容器内的工具进行编译。
+使用 `git`命令从 [repo](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu) 同步实验代码框架。
 
 ```
 ├── arch
@@ -322,7 +324,8 @@ sbi_ecall 函数中，需要完成以下内容：
 3. OpenSBI 的返回结果会存放在寄存器 a0 ， a1 中，其中 a0 为 error code， a1 为返回值， 我们用 sbiret 来接受这两个返回值。
 
 同学们可以参照内联汇编的示例一完成该函数的编写。
-编写成功后，调用 `sbi_ecall(0x1, 0x0， 0x30, 0, 0， 0， 0， 0)` 将会输出字符'0'。其中`0x1`代表 `sbi_console_putchar` 的 ExtensionID，`0x0`代表FunctionID, 0x30代表'0'的ascii值，其余参数填0。
+编写成功后，调用 `sbi_ecall(0x1, 0x0， 0x30, 0, 0, 0, 0, 0)` 将会输出字符'0'。
+其中`0x1`代表 `sbi_console_putchar` 的 ExtensionID，`0x0`代表FunctionID, 0x30代表'0'的ascii值，其余参数填0。
 
 请在 `arch/riscv/kernel/sbi.c` 中补充 `sbi_ecall()`。
 
@@ -333,8 +336,6 @@ sbi_ecall 函数中，需要完成以下内容：
 |sbi_set_timer （设置时钟相关寄存器） |0|0x00| 
 |sbi_console_putchar （打印字符）|0|0x01| 
 |sbi_console_getchar （接收字符）|0|0x02| 
-|sbi_shutdown （关机）|0|0x08| 下面是实验指导中一些有用的信息：
-
 
 
 ### 4.5 `puts()` 和 `puti()`
@@ -345,17 +346,15 @@ sbi_ecall 函数中，需要完成以下内容：
 
 ### 4.6 修改 defs
 
-内联汇编的相关知识见[内联汇编](#36)。 
-
-学习了解了以上知识后，补充 `arch/riscv/include/defs.h` 中的代码完成：
-
-补充完 `read_csr` 这个宏定义。这里有相关[示例](#_2)。
+学习了解了内联汇编的相关知识后，补充 `arch/riscv/include/defs.h` 中的代码，完成 `read_csr` 宏定义。
 
 
 ## 思考题
 
-1. 请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？
-2. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值
+1. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值，比较他们的地址是否符合你的预期
+2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的，内存中bss段的内容是0吗？
+3. 请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？
 
 ## 作业提交
-同学需要提交实验报告以及整个工程代码。在提交前请使用 `make clean` 清除所有构建产物。
+同学需要提交实验报告以及整个工程代码。
+提交前请使用 `make clean` 清除所有构建产物。
