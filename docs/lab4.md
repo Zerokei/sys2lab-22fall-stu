@@ -1,9 +1,9 @@
 # 实验4: RV64 内核引导
 
 ## 1 实验目的
-* 学习 RISC-V 汇编， 编写 head.S 实现跳转到内核运行的第一个 C 函数。
-* 学习 OpenSBI，理解 OpenSBI 在实验中所起到的作用，并调用 OpenSBI 提供的接口完成字符的输出。
-* 学习 Makefile 相关知识， 补充项目中的 Makefile 文件， 来完成对整个工程的管理。
+* 学习RISC-V汇编， 编写head.S实现跳转到内核运行的第一个C函数。
+* 学习OpenSBI，理解 OpenSBI 在实验中所起到的作用，并调用OpenSBI提供的接口完成字符的输出。
+* 学习Makefile相关知识， 补充项目中的Makefile文件， 来完成对整个工程的管理。
 ## 2 实验环境
 
 - Ubuntu 20.04, 22.04
@@ -34,15 +34,15 @@ RISC-V 有三个特权模式：U (user) 模式、S (supervisor) 模式和 M (mac
 
 其中：
 
-- M 模式是对硬件操作的抽象，有**最高**级别的权限
-- S 模式介于 M 模式和 U 模式之间，在操作系统中对应于内核态 (Kernel)。当用户需要内核资源时，向内核申请，并切换到内核态进行处理
-- U 模式用于执行用户程序，在操作系统中对应于用户态，有**最低**级别的权限
+- M模式是对硬件操作的抽象，有**最高**级别的权限
+- S模式介于M模式和U模式之间，在操作系统中对应于内核态(Kernel)。当用户需要内核资源时，向内核申请，并切换到内核态进行处理
+- U模式用于执行用户程序，在操作系统中对应于用户态，有**最低**级别的权限
 
 ### 3.3 从计算机上电到 OS 运行
 
-我们以最基础的嵌入式系统为例，计算机上电后，首先硬件进行一些基础的初始化后，将 CPU 的 Program Counter 移动到内存中 Bootloader 的起始地址。
-Bootloader 是操作系统内核运行之前，用于初始化硬件，加载操作系统内核。
-在 RISC-V 架构里，Bootloader 运行在 M 模式下。Bootloader 运行完毕后就会把当前模式切换到 S 模式下，机器随后开始运行 Kernel。
+我们以最基础的嵌入式系统为例，计算机上电后，首先硬件进行一些基础的初始化后，将CPU的Program Counter移动到内存中Bootloader的起始地址。
+Bootloader是操作系统内核运行之前，用于初始化硬件，加载操作系统内核。
+在RISC-V架构里，Bootloader运行在M模式下。Bootloader运行完毕后就会把当前模式切换到S模式下，机器随后开始运行Kernel。
 
 这个过程简单而言就是这样：
 
@@ -55,16 +55,16 @@ Bootloader 是操作系统内核运行之前，用于初始化硬件，加载操
 
 ### 3.4 SBI 与 OpenSBI
 
-SBI (Supervisor Binary Interface) 是 S-mode 的 Kernel 和 M-mode 执行环境之间的接口规范，而 [OpenSBI](https://github.com/riscv-software-src/opensbi) 是一个 RISC-V SBI 规范的开源实现。
-RISC-V 平台和 SoC 供应商可以自主扩展 OpenSBI 实现，以适应特定的硬件配置。
+SBI(Supervisor Binary Interface)是S-mode的Kernel和M-mode执行环境之间的接口规范，而[OpenSBI](https://github.com/riscv-software-src/opensbi)是一个RISC-V SBI规范的开源实现。
+RISC-V平台和SoC供应商可以自主扩展OpenSBI实现，以适应特定的硬件配置。
 
-简单的说，为了使操作系统内核适配不同硬件，OpenSBI 提出了一系列规范对 M-mode 下的硬件进行了统一定义，运行在 S-mode 下的内核可以按照这些规范对不同硬件进行操作。
+简单的说，为了使操作系统内核适配不同硬件，OpenSBI提出了一系列规范对M-mode下的硬件进行了统一定义，运行在S-mode下的内核可以按照这些规范对不同硬件进行操作。
 
 ![RISC-V SBI 介绍](pic/lab4-riscv-sbi.png)
 
-在启动 qemu 时，我们指定的 BIOS 就是编译过后的 OpenSBI，它作为 Bootloader 会完成 M-mode 下的硬件初始化与寄存器设置，并使用 M 模式下基本系统调用服务，例如字符打印。
+在启动qemu时，我们指定的BIOS就是编译过后的OpenSBI，它作为Bootloader会完成M-mode下的硬件初始化与寄存器设置，并使用M模式下基本系统调用服务，例如字符打印。
 
-在实验中，virt 配置的 QEMU 会将 OpenSBI 代码加载到 0x80000000 起始处，OpenSBI 初始化完成后，会跳转到 0x80200000 处继续执行。因此，我们所编写的代码需要放到 0x80200000 处。
+在实验中，virt配置的QEMU会将OpenSBI代码加载到0x80000000起始处，OpenSBI初始化完成后，会跳转到0x80200000处继续执行。因此，我们所编写的代码需要放到0x80200000处。
 
 如果你对在 RISC-V 架构上从零构造 Linux 系统有更多的好奇，可以参考ZJV团队开发的 RISC-V 模拟器开发环境套件 [riscv-rss-sdk](https://github.com/riscv-zju/riscv-rss-sdk)。
 
@@ -95,7 +95,7 @@ Makefile 可以简单的认为是一个工程文件的编译规则，描述了�
 
 其中，三个 `:` 将汇编部分分成了四部分：
 
-- 第一部分是汇编指令，指令末尾需要添加 '\n'。
+- 第一部分是汇编指令，指令末尾需要添加'\n'。
 - 第二部分是输出操作数部分。
 - 第三部分是输入操作数部分。
 - 第四部分是可能影响的寄存器或存储器，用于告知编译器当前内联汇编语句可能会对某些寄存器或内存进行修改，使得编译器在优化时将其因素考虑进去。
@@ -118,9 +118,9 @@ unsigned long long s_example(unsigned long long type,unsigned long long arg0) {
     return ret_val;
 }
 ```
-示例一中指令部分，`%[type]`、`%[arg0]` 以及 `%[ret_val]` 代表着特定的寄存器或是内存。
+示例一中指令部分，`%[type]`、`%[arg0]`以及`%[ret_val]`代表着特定的寄存器或是内存。
 
-输入输出部分中，`[type] "r" (type)`代表着将 `()` 中的变量 `type` 放入寄存器中（`"r"` 指放入寄存器，如果是 `"m"` 则为放入内存），并且绑定到 `[]` 中命名的符号中去。`[ret_val] "=r" (ret_val)` 代表着将汇编指令中 `%[ret_val]` 的值更新到变量 `ret_val`中。
+输入输出部分中，`[type] "r" (type)`代表着将`()`中的变量`type`放入寄存器中（`"r"`指放入寄存器，如果是`"m"`则为放入内存），并且绑定到`[]`中命名的符号中去。`[ret_val] "=r" (ret_val)`代表着将汇编指令中`%[ret_val]`的值更新到变量`ret_val`中。
 
 #### 示例二
 
@@ -129,11 +129,11 @@ unsigned long long s_example(unsigned long long type,unsigned long long arg0) {
     __asm__ volatile ("csrw " #reg ", %0" :: "r"(val)); })
 ```
 
-示例二定义了一个宏，其中 `%0` 代表着输出输入部分的第一个符号，即 `val`。
+示例二定义了一个宏，其中`%0`代表着输出输入部分的第一个符号，即`val`。
 
-`#reg` 是c语言的一个特殊宏定义语法，相当于将reg进行宏替换并用双引号包裹起来。
+`#reg`是c语言的一个特殊宏定义语法，相当于将reg进行宏替换并用双引号包裹起来。
 
-例如 `write_csr(sstatus,val)` 经宏展开会得到：
+例如`write_csr(sstatus,val)`经宏展开会得到：
 
 ```c
 ({
@@ -143,12 +143,13 @@ unsigned long long s_example(unsigned long long type,unsigned long long arg0) {
 ### 3.7 编译相关知识介绍
 #### vmlinux.lds
 
-GNU ld 即链接器，用于将 `*.o` 文件（和库文件）链接成可执行文件。在操作系统开发中，为了指定程序的内存布局，ld 使用链接脚本（Linker Script）来控制，在 Linux Kernel 中链接脚本被命名为 vmlinux.lds。更多关于 ld 的介绍可以使用 `man ld` 命令。
+GNU ld即链接器，用于将`*.o`文件（和库文件）链接成可执行文件。
+在操作系统开发中，为了指定程序的内存布局，ld使用链接脚本（Linker Script）来控制，在Linux Kernel中链接脚本被命名为vmlinux.lds。
+更多关于ld的介绍可以使用`man ld`命令。
 
 下面给出一个 vmlinux.lds 的例子：
 
 ```lds
-/* 目标架构 */
 OUTPUT_ARCH( "riscv" )
 
 /* 程序入口 */
@@ -163,7 +164,7 @@ SECTIONS
     . = BASE_ADDR;
 
     /* 记录kernel代码的起始地址 */
-    _skernel = .;
+    _start = .;
 
     /* ALIGN(0x1000) 表示4KB对齐 */
     /* _stext, _etext 分别记录了text段的起始与结束地址 */
@@ -195,23 +196,23 @@ SECTIONS
     .bss : ALIGN(0x1000){
         _sbss = .;
 
-        *(.bss.stack)
-        sbss = .;
+        *(.sbss .sbss.*)
         *(.bss .bss.*)
         
         _ebss = .;
     }
 
     /* 记录kernel代码的结束地址 */
-    _ekernel = .;
+    . = ALIGN(0x1000);
+    _end = .;
 }
 ```
 
-首先我们使用 OUTPUT_ARCH 指定了架构为 RISC-V ，之后使用 ENTRY 指定程序入口点为 `_start` 函数，程序入口点即程序启动时运行的函数，经过这样的指定后在head.S中需要编写 `_start` 函数，程序才能正常运行。
+首先我们使用OUTPUT_ARCH指定了架构为RISC-V，之后使用ENTRY指定程序入口点为`_start`函数，程序入口点即程序启动时运行的函数，经过这样的指定后在head.S中需要编写`_start`函数，程序才能正常运行。
 
 链接脚本中有`.` `*`两个重要的符号。单独的`.`在链接脚本代表当前地址，它有赋值、被赋值、自增等操作。而`*`有两种用法，其一是`*()`在大括号中表示将所有文件中符合括号内要求的段放置在当前位置，其二是作为通配符。
 
-链接脚本的主体是SECTIONS部分，在这里链接脚本的工作是将程序的各个段按顺序放在各个地址上，在例子中就是从0x80200000地址开始放置了 `.text` ， `.rodata` ， `.data` 和 `.bss` 段。各个段的作用可以简要概括成：
+链接脚本的主体是SECTIONS部分，在这里链接脚本的工作是将程序的各个段按顺序放在各个地址上，在例子中就是从0x80200000地址开始放置了`.text`，`.rodata`，`.data`和`.bss`段。各个段的作用可以简要概括成：
 
 | 段名     | 主要作用                       |
 | ------- | ----------------------------- |
@@ -220,13 +221,14 @@ SECTIONS
 | .data   | 通常存放已初始化的全局变量、静态变量 |
 | .bss    | 通常存放未初始化的全局变量、静态变量 |
 
-在链接脚本中可以自定义符号，例如以上所有 `_s` 与  `_e`开头的符号都是我们自己定义的。
+在链接脚本中可以自定义符号，例如以上所有`_s`与 `_e`开头的符号都是我们自己定义的。
 
 更多有关链接脚本语法可以参考[这里](https://sourceware.org/binutils/docs/ld/Scripts.html)。
 
 #### vmlinux
 
-vmlinux 通常指 Linux Kernel 编译出的可执行文件 (Executable and Linkable Format / ELF)，特点是未压缩的，带调试信息和符号表的。在整套 OS 实验中，vmlinux 通常指将你的代码进行编译，链接后生成的可供 QEMU 运行的 RV64 架构程序。如果对 vmlinux 使用 `file` 命令，你将看到如下信息：
+vmlinux通常指Linux Kernel编译出的可执行文件(Executable and Linkable Format / ELF)，特点是未压缩的，带调试信息和符号表的。
+在整套实验中，vmlinux通常指将你的代码进行编译，链接后生成的可供QEMU运行的RV64架构程序。如果对vmlinux使用`file`命令，你将看到如下信息：
 
 ```bash
 $ file vmlinux 
@@ -235,7 +237,7 @@ vmlinux: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), statically lin
 
 #### System.map
 
-System.map是内核符号表（Kernel Symbol Table）文件，是存储了所有内核符号及其地址的一个列表。“符号”通常指的是函数名，全局变量名等等。使用 `nm vmlinux` 命令即可打印vmlinux的符号表，符号表的样例如下：
+System.map是内核符号表（Kernel Symbol Table）文件，是存储了所有内核符号及其地址的一个列表。“符号”通常指的是函数名，全局变量名等等。使用`nm vmlinux`命令即可打印vmlinux的符号表，符号表的样例如下：
 
 ```
 0000000000000800 A __vdso_rt_sigreturn
@@ -294,18 +296,20 @@ ffffffe000000190 t debug_kernel
 
 学习riscv的汇编。
 
-完成 arch/riscv/kernel/head.S 。我们首先为即将运行的第一个 C 函数设置程序栈（栈的大小可以设置为4KB），并将该栈放置在`.bss.stack` 段。接下来我们只需要通过跳转指令，跳转至 main.c 中的 `start_kernel` 函数即可。
+完成 arch/riscv/kernel/head.S。
+我们首先为即将运行的第一个C函数设置程序栈（栈的大小可以设置为4KB），并将该栈放置在程序的后面，也就是`_end`以后的地址空间。
+设置好C执行环境后，接下来我们只需要通过跳转指令，跳转至 main.c 中的`start_kernel`函数即可。
 
 
 ### 4.3 完善 Makefile 脚本
 
-阅读文档中关于 [Makefile](#35-makefile) 的章节，以及工程文件中的 Makefile 文件，根据注释学会 Makefile 的使用规则后，补充 `lib/Makefile`，使工程得以编译。  
-
+阅读文档中关于 [Makefile](#35-makefile) 的章节，以及工程文件中的Makefile文件，根据注释学会Makefile的使用规则后，补充`lib/Makefile`，使工程得以编译。  
 完成此步后在工程根文件夹执行 make，可以看到工程成功编译出 vmlinux。
 
 ### 4.4 补充 `sbi.c`
 
-OpenSBI 在 M 态，为 S 态提供了多种接口，比如字符串输入输出。因此我们需要实现调用 OpenSBI 接口的功能。给出函数定义如下：
+OpenSBI在M态，为S态提供了多种接口，比如字符串输入输出。
+因此我们需要实现调用 OpenSBI 接口的功能。给出函数定义如下：
 ```c
 struct sbiret {
 	long error;
@@ -317,17 +321,17 @@ struct sbiret sbi_ecall(int ext, int fid,
                     uint64 arg3, uint64 arg4, uint64 arg5);
 ```
 
-sbi_ecall 函数中，需要完成以下内容：
+`sbi_ecall` 函数中，需要完成以下内容：
 
-1. 将 ext (Extension ID) 放入寄存器 a7 中，fid (Function ID) 放入寄存器 a6 中，将 arg0 ~ arg5 放入寄存器 a0 ~ a5 中。
-2. 使用 `ecall` 指令。`ecall` 之后系统会进入 M 模式，之后 OpenSBI 会完成相关操作。
-3. OpenSBI 的返回结果会存放在寄存器 a0 ， a1 中，其中 a0 为 error code， a1 为返回值， 我们用 sbiret 来接受这两个返回值。
+1. 将ext(Extension ID)放入寄存器a7中，fid(Function ID)放入寄存器a6中，将arg[0-5]放入寄存器a[0-5]中。
+2. 使用`ecall`指令。`ecall`之后系统会进入M模式，之后OpenSBI会完成相关操作。
+3. OpenSBI的返回结果会存放在寄存器a0、a1中，其中a0为error code，a1为返回值，我们用sbiret结构来接受这两个返回值。
 
 同学们可以参照内联汇编的示例一完成该函数的编写。
-编写成功后，调用 `sbi_ecall(0x1, 0x0， 0x30, 0, 0, 0, 0, 0)` 将会输出字符'0'。
-其中`0x1`代表 `sbi_console_putchar` 的 ExtensionID，`0x0`代表FunctionID, 0x30代表'0'的ascii值，其余参数填0。
+编写成功后，调用`sbi_ecall(0x1, 0x0， 0x30, 0, 0, 0, 0, 0)`将会输出字符'0'。
+其中`0x1`代表`sbi_console_putchar`的ExtensionID，`0x0`代表FunctionID, 0x30代表'0'的ascii值，其余参数填0。
 
-请在 `arch/riscv/kernel/sbi.c` 中补充 `sbi_ecall()`。
+请在`arch/riscv/kernel/sbi.c`中补充`sbi_ecall()`。
 
 下面列出了一些在后续的实验中可能需要使用的功能。
 
@@ -339,21 +343,21 @@ sbi_ecall 函数中，需要完成以下内容：
 
 
 ### 4.5 `puts()` 和 `puti()`
-调用以上完成的 `sbi_ecall` , 完成 `puts()` 和 `puti()` 的实现。
-`puts()` 用于打印字符串，`puti()` 用于打印整型变量。
+调用以上完成的`sbi_ecall`, 完成`puts()`和`puti()`的实现。
+`puts()`用于打印字符串`puti()`用于打印整型变量。
 
-请编写 `lib/print.c` 中的 `puts()` 和 `puti()`， 函数的相关定义已经写在了 `print.h` 文件。
+请编写`lib/print.c`中的`puts()`和`puti()`，函数的相关定义已经写在了`print.h`文件。
 
 ### 4.6 修改 defs
 
-学习了解了内联汇编的相关知识后，补充 `arch/riscv/include/defs.h` 中的代码，完成 `read_csr` 宏定义。
+学习了解了内联汇编的相关知识后，补充`arch/riscv/include/defs.h`中的代码，完成`read_csr`宏定义。
 
 
 ## 思考题
 
 1. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值，比较他们的地址是否符合你的预期
 2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的，内存中bss段的内容是0吗？
-3. 请总结一下 RISC-V 的 calling convention，并解释 Caller / Callee Saved Register 有什么区别？
+3. 尝试给start_kernel传递参数
 
 ## 作业提交
 同学需要提交实验报告以及整个工程代码。

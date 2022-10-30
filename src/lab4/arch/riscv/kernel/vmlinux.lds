@@ -52,5 +52,6 @@ SECTIONS
     }
 
     /* 记录kernel代码的结束地址 */
+    . = ALIGN(0x1000);
     _end = .;
 }
