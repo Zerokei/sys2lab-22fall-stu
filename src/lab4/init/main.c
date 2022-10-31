@@ -4,8 +4,8 @@
 extern void test();
 
 int start_kernel() {
-    puti(2021);
-    puts(" Hello RISC-V\n");
+    puti(2022);
+    puts(" ZJU Computer System II\n");
 
     test(); // DO NOT DELETE !!!
 

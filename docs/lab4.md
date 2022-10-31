@@ -2,8 +2,8 @@
 
 ## 1 实验目的
 * 学习RISC-V汇编， 编写head.S实现跳转到内核运行的第一个C函数。
-* 学习OpenSBI，理解 OpenSBI 在实验中所起到的作用，并调用OpenSBI提供的接口完成字符的输出。
-* 学习Makefile相关知识， 补充项目中的Makefile文件， 来完成对整个工程的管理。
+* 学习OpenSBI，理解OpenSBI在实验中所起到的作用，并调用OpenSBI提供的接口完成字符的输出。
+* 学习Makefile相关知识，补充项目中的Makefile文件，来完成对整个工程的管理。
 ## 2 实验环境
 
 - Ubuntu 20.04, 22.04
@@ -18,8 +18,7 @@
 - [RISC-V Unprivileged Spec](https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf)
 - [RISC-V Privileged Spec](https://github.com/riscv/riscv-isa-manual/releases/download/Priv-v1.12/riscv-privileged-20211203.pdf)
 
-
-> 注：RISC-V 手册（中文）中有一些 Typo，请谨慎参考。
+> 注：RISC-V 手册（中文）中有一些Typo，请谨慎参考。
 
 ### 3.2 RISC-V 的三种特权模式
 
@@ -66,16 +65,16 @@ RISC-V平台和SoC供应商可以自主扩展OpenSBI实现，以适应特定的�
 
 在实验中，virt配置的QEMU会将OpenSBI代码加载到0x80000000起始处，OpenSBI初始化完成后，会跳转到0x80200000处继续执行。因此，我们所编写的代码需要放到0x80200000处。
 
-如果你对在 RISC-V 架构上从零构造 Linux 系统有更多的好奇，可以参考ZJV团队开发的 RISC-V 模拟器开发环境套件 [riscv-rss-sdk](https://github.com/riscv-zju/riscv-rss-sdk)。
+如果你对在RISC-V架构上从零构造并启动真实的Linux系统有更多的好奇，可以参考ZJV团队开发的RISC-V模拟器开发环境套件[riscv-rss-sdk](https://github.com/riscv-zju/riscv-rss-sdk)。
 
 ### 3.5 Makefile
 
-Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在 Lab3 中我们已经使用了 make 工具利用 Makefile 文件来管理整个工程。
-在阅读了 [Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html) 这一章节后，同学们可以根据工程文件夹里 Makefile 的代码来掌握一些基本的使用技巧。
+Makefile 可以简单的认为是一个工程文件的编译规则，描述了整个工程的编译和链接流程。在Lab3中我们已经使用了make工具利用Makefile文件来管理整个工程。
+在阅读了[Makefile介绍](https://seisman.github.io/how-to-write-makefile/introduction.html)章节后，同学们可以根据工程文件夹里Makefile的代码来掌握一些基本的使用技巧。
 
 ### 3.6 内联汇编
-内联汇编（通常由 asm 或者 \_\_asm\_\_ 关键字引入）提供了将汇编语言源代码嵌入 C 程序的能力。
-内联汇编的详细介绍请参考 [Assembler Instructions with C Expression Operands](https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html) 。
+内联汇编（通常由asm或者\_\_asm\_\_关键字引入）提供了将汇编语言源代码嵌入C程序的能力。
+内联汇编的详细介绍请参考[Assembler Instructions with C Expression Operands](https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html)。
 下面简要介绍一下这次实验会用到的一些内联汇编知识：
 
 内联汇编基本格式为：
@@ -93,7 +92,7 @@ Makefile 可以简单的认为是一个工程文件的编译规则，描述了�
     );
 ```
 
-其中，三个 `:` 将汇编部分分成了四部分：
+其中，三个`:`将汇编部分分成了四部分：
 
 - 第一部分是汇编指令，指令末尾需要添加'\n'。
 - 第二部分是输出操作数部分。
@@ -210,7 +209,7 @@ SECTIONS
 
 首先我们使用OUTPUT_ARCH指定了架构为RISC-V，之后使用ENTRY指定程序入口点为`_start`函数，程序入口点即程序启动时运行的函数，经过这样的指定后在head.S中需要编写`_start`函数，程序才能正常运行。
 
-链接脚本中有`.` `*`两个重要的符号。单独的`.`在链接脚本代表当前地址，它有赋值、被赋值、自增等操作。而`*`有两种用法，其一是`*()`在大括号中表示将所有文件中符合括号内要求的段放置在当前位置，其二是作为通配符。
+链接脚本中有`.`、`*`两个重要的符号。单独的`.`在链接脚本代表当前地址，它有赋值、被赋值、自增等操作。而`*`有两种用法，其一是`*()`在大括号中表示将所有文件中符合括号内要求的段放置在当前位置，其二是作为通配符。
 
 链接脚本的主体是SECTIONS部分，在这里链接脚本的工作是将程序的各个段按顺序放在各个地址上，在例子中就是从0x80200000地址开始放置了`.text`，`.rodata`，`.data`和`.bss`段。各个段的作用可以简要概括成：
 
@@ -257,7 +256,7 @@ ffffffe000000190 t debug_kernel
 ## 4 实验步骤
 
 ### 4.1 准备工程
-使用 `git`命令从 [repo](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu) 同步实验代码框架。
+【重要】 使用 `git`命令从 [上游仓库](https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu) 同步实验代码框架。
 
 ```
 ├── arch
@@ -284,7 +283,7 @@ ffffffe000000190 t debug_kernel
 └── Makefile
 ```
 
-需要完善以下文件：
+本次实验中，同学们需要完善以下文件，实验源代码里添加了错误提示，完成代码后记得将相关的提示清除：
 
 - arch/riscv/kernel/head.S
 - lib/Makefile
@@ -294,17 +293,16 @@ ffffffe000000190 t debug_kernel
 
 ### 4.2 编写head.S
 
-学习riscv的汇编。
-
-完成 arch/riscv/kernel/head.S。
+学习riscv的汇编，完成arch/riscv/kernel/head.S。
 我们首先为即将运行的第一个C函数设置程序栈（栈的大小可以设置为4KB），并将该栈放置在程序的后面，也就是`_end`以后的地址空间。
 设置好C执行环境后，接下来我们只需要通过跳转指令，跳转至 main.c 中的`start_kernel`函数即可。
 
 
 ### 4.3 完善 Makefile 脚本
 
-阅读文档中关于 [Makefile](#35-makefile) 的章节，以及工程文件中的Makefile文件，根据注释学会Makefile的使用规则后，补充`lib/Makefile`，使工程得以编译。  
-完成此步后在工程根文件夹执行 make，可以看到工程成功编译出 vmlinux。
+阅读文档中关于[Makefile](#35-makefile)的章节，以及工程文件中的Makefile文件。
+根据注释学会Makefile的使用规则后，清除掉`lib/Makefile`中的error函数并完成正确的构造规则，使工程得以编译。  
+完成此步后在工程根文件夹执行make，可以看到不会再提示Makefile的错误，而是C的未完成的代码块的提示。
 
 ### 4.4 补充 `sbi.c`
 
@@ -351,13 +349,16 @@ struct sbiret sbi_ecall(int ext, int fid,
 ### 4.6 修改 defs
 
 学习了解了内联汇编的相关知识后，补充`arch/riscv/include/defs.h`中的代码，完成`read_csr`宏定义。
+完成完以上内容后再次执行make，可以看到在根目录下成功生成了vmlinux。
+运行make run即可执行，检测你的程序是否正确地打印出了欢迎信息`2022  ZJU Computer System II`。
 
 
 ## 思考题
 
-1. 编译之后，通过 System.map 查看 vmlinux.lds 中自定义符号的值，比较他们的地址是否符合你的预期
-2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的，内存中bss段的内容是0吗？
-3. 尝试给start_kernel传递参数
+1. 编译之后，通过System.map查看vmlinux.lds中自定义符号的值，比较他们的地址是否符合你的预期
+2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的？
+3. 在你的第一条指令处添加断点，观察内存中text、data、bss段的内容是怎样的？
+4. 尝试从汇编代码中给C函数start_kernel传递参数
 
 ## 作业提交
 同学需要提交实验报告以及整个工程代码。
