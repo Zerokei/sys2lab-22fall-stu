@@ -361,5 +361,11 @@ struct sbiret sbi_ecall(int ext, int fid,
 4. 尝试从汇编代码中给C函数start_kernel传递参数
 
 ## 作业提交
-同学需要提交实验报告以及整个工程代码。
-提交前请使用 `make clean` 清除所有构建产物。
+同学需要提交实验报告以及整个工程代码，提交时请注意如下几点：
+1. 报告的pdf放在外面，压缩包只放代码。
+    ```
+    提交文件
+    ├── report.pdf
+    └── code.zip
+    ```
+2. 提交前请使用 `make clean` 清除所有构建产物。
