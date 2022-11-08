@@ -295,8 +295,20 @@ ffffffe000000190 t debug_kernel
 
 学习riscv的汇编，完成arch/riscv/kernel/head.S。
 我们首先为即将运行的第一个C函数设置程序栈（栈的大小可以设置为4KB），并将该栈放置在程序的后面，也就是`_end`以后的地址空间。
+```
+_start────►┌──────────┐
+           │   text   │
+           ├──────────┤
+           │  rodata  │
+           ├──────────┤
+           │   data   │
+           ├──────────┤
+           │   bss    │
+ _end─────►├──────────┤
+           │4KB stack │
+  sp──────►└──────────┘
+```
 设置好C执行环境后，接下来我们只需要通过跳转指令，跳转至 main.c 中的`start_kernel`函数即可。
-
 
 ### 4.3 完善 Makefile 脚本
 
@@ -357,6 +369,7 @@ struct sbiret sbi_ecall(int ext, int fid,
 
 1. 编译之后，通过System.map查看vmlinux.lds中自定义符号的值，比较他们的地址是否符合你的预期
 2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的？
+**提示**：可以在gdb中使用`info reg priv`指令查看特权态
 3. 在你的第一条指令处添加断点，观察内存中text、data、bss段的内容是怎样的？
 4. 尝试从汇编代码中给C函数start_kernel传递参数
 
