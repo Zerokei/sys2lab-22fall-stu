@@ -10,7 +10,7 @@ ABI		:=	lp64
 
 INCLUDE := 	-I $(shell pwd)/include -I $(shell pwd)/arch/riscv/include
 CF 		:= 	-g3 -march=$(ISA) -mabi=$(ABI) -mcmodel=medany 		\
-			-fno-builtin -ffunction-sections -fdata-sections 	\
+			-fno-builtin -ffunction-sections -fdata-sections  -fno-PIE	\
 			-nostartfiles -nostdlib -nostdinc -static -lgcc -Wl,--nmagic -Wl,--gc-sections
 CFLAG 	:= 	${CF} ${INCLUDE}
 
