@@ -369,7 +369,7 @@ struct sbiret sbi_ecall(int ext, int fid,
 
 1. 编译之后，通过System.map查看vmlinux.lds中自定义符号的值，比较他们的地址是否符合你的预期
 2. 在你的第一条指令处添加断点，观察你的程序开始执行时的特权态是多少，中断的开启情况是怎么样的？
-**提示**：可以在gdb中使用`info reg priv`指令查看特权态
+**提示**：可以尝试在第一条指令处插入一些特权操作，如`csrr a0, mstatus`，观察调试现象，进行当前特权态的判断。
 3. 在你的第一条指令处添加断点，观察内存中text、data、bss段的内容是怎样的？
 4. 尝试从汇编代码中给C函数start_kernel传递参数
 
