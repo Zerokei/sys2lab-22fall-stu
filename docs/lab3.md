@@ -152,7 +152,7 @@ $ make clean        # 清除所有编译好的 object 文件
 
 ```bash
 $ git clone https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu.git
-$ cd sys2lab-21fall/src/lab3
+$ cd sys2lab-22fall-stu/src/lab3
 $ ls
 fw_jump.bin  rootfs.img
 ```
@@ -160,6 +160,7 @@ fw_jump.bin  rootfs.img
 ### 4.3 编译 linux 内核
 
 ```bash
+# 进入linux内核所在路径后，使用pwd确认路径
 $ pwd
 path/to/lab3/linux
 $ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- defconfig    # 生成配置
