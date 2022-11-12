@@ -141,13 +141,6 @@ Machine Mode 异常相关寄寄存器:
     _start:
         ...
     
-        .section .bss.stack
-        .globl boot_stack
-    boot_stack:
-        .space 4096
-    
-        .globl boot_stack_top
-    boot_stack_top:
     
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 修改之后的 head.S
     extern start_kernel
@@ -157,13 +150,6 @@ Machine Mode 异常相关寄寄存器:
     _start:
         ...
     
-        .section .bss.stack
-        .globl boot_stack
-    boot_stack:
-        .space 4096
-    
-        .globl boot_stack_top
-    boot_stack_top:
     ```
 
 ### 4.2 开启异常处理
@@ -336,4 +322,12 @@ void clock_set_next_event() {
     通过查看 `RISC-V Privileged Spec` 中的 `medeleg` 和 `mideleg` 解释上面 `MIDELEG` 值的含义。
 
 ## 作业提交
-同学需要提交实验报告以及整个工程代码。在提交前请使用 `make clean` 清除所有构建产物。
+同学需要提交实验报告以及整个工程代码，提交时请注意如下几点：
+
+1. 报告的pdf放在外面，压缩包只放代码。
+    ```
+    提交文件
+    ├── report.pdf
+    └── code.zip
+    ```
+2. 提交前请使用 `make clean` 清除所有构建产物。
