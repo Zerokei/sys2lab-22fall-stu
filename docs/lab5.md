@@ -321,7 +321,7 @@ void clock_set_next_event() {
     ```
     通过查看 `RISC-V Privileged Spec` 中的 `medeleg` 和 `mideleg` 解释上面 `MIDELEG` 值的含义，如果实验中mideleg没有设定为正确的值结果会怎么样呢？
 
-2. 机器启动后mtime是从0开始计时的吗，为什么不是从0计时呢？
+2. 机器启动后time、cycle寄存器分别是从0开始计时的吗，从0计时是否是必要的呢？
 
 3. 阅读The RISC-V Instruction Set Manual Volume I: Unprivileged ISA (V20191213)中第1.2章节 RISC-V Software Execution Environments and Harts，谈谈如何在一台不支持乘除法指令扩展的处理器上执行乘除法指令。
 
