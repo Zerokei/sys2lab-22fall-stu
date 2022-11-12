@@ -7,7 +7,7 @@
 * 调用 OpenSBI 提供的接口，完成对时钟中断事件的设置。
 
 ## 2 实验环境
-* Docker in Lab3
+* Ubuntu 20.04, 22.04
 
 ## 3 背景知识
 ### 3.0 前言
@@ -70,16 +70,32 @@ Machine Mode 异常相关寄寄存器:
 ## 4 实验步骤
 ### 4.1 准备工程
 * 此次实验基于 lab4 同学所实现的代码进行。
-* 在 `lab4` 中我们实现的 `puti` `puts` 使用起来较为繁琐，因此在这里我们提供了简化版的 `printk`。 从 `repo` 同步以下代码: `stddef.h` `printk.h` `printk.c`，并按如下目录结构放置。**还需要将之前所有 `print.h puti puts` 的引用修改为 `printk.h printk`**。
+* 在 `lab4` 中我们实现的 `puti` `puts` 使用起来较为繁琐，因此在这里我们提供了简化版的 `printk`。 从 `repo` 同步代码。**还需要将之前所有 `print.h puti puts` 的引用修改为 `printk.h printk`**。同步后代码的目录结构如下所示
     ```
     .
     ├── Makefile
     ├── arch
+    │   └── riscv
+    │       ├── Makefile
+    │       ├── include
+    │       │   ├── defs.h
+    │       │   └── sbi.h
+    │       └── kernel
+    │           ├── Makefile
+    │           ├── clock.c
+    │           ├── entry.S
+    │           ├── head.S
+    │           ├── sbi.c
+    │           ├── trap.c
+    │           └── vmlinux.lds
     ├── include
-    │   ├── printk.h
-    │   ├── stddef.h
-    │   └── types.h
+    │   ├── printk.h
+    │   ├── stddef.h
+    │   └── types.h
     ├── init
+    │   ├── Makefile
+    │   ├── main.c
+    │   └── test.c
     └── lib
         ├── Makefile
         └── printk.c
@@ -88,64 +104,64 @@ Machine Mode 异常相关寄寄存器:
     ```
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 原先的 vmlinux.lds
     ...
-
+    
     .text : ALIGN(0x1000){
         _stext = .;
-
+    
         *(.text.entry)
         *(.text .text.*)
         
         _etext = .;
     }
-
+    
     ...
-
+    
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 修改之后的 vmlinux.lds
     ...
-
+    
     .text : ALIGN(0x1000){
         _stext = .;
-
+    
         *(.text.init)      <- 加入了 .text.init
         *(.text.entry)     <- 之后我们实现 中断处理逻辑 会放置在 .text.entry
         *(.text .text.*)
         
         _etext = .;
     }
-
+    
     ...
     ```
 
     ```
     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 原先的 head.S
     extern start_kernel
-
+    
         .section .text.entry        <- 之前的 _start 放置在 .text.entry section       
         .globl _start
     _start:
         ...
-
+    
         .section .bss.stack
         .globl boot_stack
     boot_stack:
         .space 4096
-
+    
         .globl boot_stack_top
     boot_stack_top:
-
+    
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 修改之后的 head.S
     extern start_kernel
-
+    
         .section .text.init         <- 将 _start 放入.text.init section 
         .globl _start
     _start:
         ...
-
+    
         .section .bss.stack
         .globl boot_stack
     boot_stack:
         .space 4096
-
+    
         .globl boot_stack_top
     boot_stack_top:
     ```
@@ -192,12 +208,15 @@ _start:
 
     ...
 ```
-> Debug 提示： 可以先不实现 stvec 和 first time interrupt， 先关注 sie 和 sstatus 是否设置正确。
+> Debug 提示： 
+>
+> - 可以先不实现 stvec 和 first time interrupt， 先关注 sie 和 sstatus 是否设置正确。
+> - 在QEMU中，`mtime`和`mtimecmp`的实现是通过 MMIO(Memory-mapped I/O) 的方式实现的，在QEMU的默认设置中`mtime`的地址位于`0x200bff8`，读这个地址的值就是`mtime`的值(实验中是一个64bit的量)，`mtimecmp`的地址在`0x2004000`。
 
 ### 4.3 实现上下文切换
 我们要使用汇编实现上下文切换机制， 包含以下几个步骤：
 
-1. 在 `arch/riscv/kernel/` 目录下添加 `entry.S` 文件。
+1. 修改 `arch/riscv/kernel/` 目录下的 `entry.S` 文件。
 2. 保存CPU的寄存器（上下文）到内存中（栈上）。
 3. 将 `scause` 和 `sepc` 中的值传入异常处理函数 `trap_handler` ( `trap_handler` 在 4.4 中介绍 ) ，我们将会在 `trap_handler` 中实现对异常的处理。
 4. 在完成对异常的处理之后， 我们从内存中（栈上）恢复CPU的寄存器（上下文）。
@@ -231,7 +250,7 @@ _traps:
 > Debug 提示： 可以先不实现 call trap_handler， 先实现上写文切换逻辑。通过 gdb 跟踪各个寄存器，确保上下文的 save 与 restore 正确实现并正确返回。
 
 ### 4.4 实现异常处理函数
-1. 在 `arch/riscv/kernel/` 目录下添加 `trap.c` 文件。
+1. 修改 `arch/riscv/kernel/` 目录下的 `trap.c` 文件。
 2. 在 `trap.c` 中实现异常处理函数 `trap_handler()`, 其接收的两个参数分别是 `scause` 和 `sepc` 两个寄存器中的值。
 ```c
 // trap.c 
@@ -239,7 +258,7 @@ _traps:
 void trap_handler(unsigned long scause, unsigned long sepc) {
     // 通过 `scause` 判断trap类型
     // 如果是interrupt 判断是否是timer interrupt
-    // 如果是timer interrupt 则打印输出相关信息, 并通过 `clock_set_next_event()` 设置下一次时钟中断
+    // 如果是timer interrupt 则打印输出相关信息(即 4.6 节中输出的[S] Supervisor Mode Timer Interrupt), 并通过 `clock_set_next_event()` 设置下一次时钟中断
     // `clock_set_next_event()` 见 4.5 节
     // 其他interrupt / exception 可以直接忽略
     
@@ -248,7 +267,7 @@ void trap_handler(unsigned long scause, unsigned long sepc) {
 ```
 
 ### 4.5 实现时钟中断相关函数
-1. 在 `arch/riscv/kernel/` 目录下添加 `clock.c` 文件。
+1. 修改 `arch/riscv/kernel/` 目录下的 `clock.c` 文件。
 2. 在 `clock.c` 中实现 get_cycles ( ) : 使用 `rdtime` 汇编指令获得当前 `time` 寄存器中的值。
 3. 在 `clock.c` 中实现 clock_set_next_event ( ) : 调用 `sbi_ecall`，设置下一个时钟中断事件。
 ```c
@@ -274,31 +293,27 @@ void clock_set_next_event() {
 ```
 
 ### 4.6 编译及测试
-由于加入了一些新的 .c 文件，可能需要修改一些Makefile文件，请同学自己尝试修改，使项目可以编译并运行。
+由于加入了一些新的 .c 文件，可能需要修改或添加一些 Makefile 或 .h 文件，请同学自己尝试修改，使项目可以编译并运行。
 
 下面是一个正确实现的输出样例。（ 仅供参考 ）
 ```
-kernel is running!
+2022 ZJU Computer System II
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
 [S] Supervisor Mode Timer Interrupt
-kernel is running!
+[S] Supervisor Mode Timer Interrupt
+[S] Supervisor Mode Timer Interrupt
+[S] Supervisor Mode Timer Interrupt
 [S] Supervisor Mode Timer Interrupt
 ```
 
 ## 思考题
+
 1. 在我们使用make run时， OpenSBI 会产生如下输出:
     ```bash
     OpenSBI v0.9
@@ -310,12 +325,12 @@ kernel is running!
     \____/| .__/ \___|_| |_|_____/|____/_____|
             | |
             |_|
-
+    
     ......
-
+    
     Boot HART MIDELEG         : 0x0000000000000222
     Boot HART MEDELEG         : 0x000000000000b109
-
+    
     ......
     ```
     通过查看 `RISC-V Privileged Spec` 中的 `medeleg` 和 `mideleg` 解释上面 `MIDELEG` 值的含义。
