@@ -151,7 +151,24 @@ Machine Mode 异常相关寄寄存器:
         ...
     
     ```
-
+* 修改`init/test.c`
+    ```
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 原先的 test.c
+    ...
+    while(1) {}
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 修改之后的 test.c
+    ...
+    unsigned long record_time = 0; 
+    while (1) {
+        unsigned long present_time;
+        __asm__ volatile("rdtime %[t]" : [t] "=r" (present_time) : : "memory");
+        present_time /= 10000000;
+        if (record_time < present_time) {
+            printk("kernel is running! Time: %lus\n", present_time);
+            record_time = present_time; 
+        }
+    }
+    ```
 ### 4.2 开启异常处理
 在运行 `start_kernel` 之前，我们要对上面提到的 CSR 进行初始化，初始化包括以下几个步骤：
 
@@ -284,17 +301,13 @@ void clock_set_next_event() {
 下面是一个正确实现的输出样例。（ 仅供参考 ）
 ```
 2022 ZJU Computer System II
+kernel is running! Time: 1s
 [S] Supervisor Mode Timer Interrupt
+kernel is running! Time: 2s
 [S] Supervisor Mode Timer Interrupt
+kernel is running! Time: 3s
 [S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
-[S] Supervisor Mode Timer Interrupt
+kernel is running! Time: 4s 
 [S] Supervisor Mode Timer Interrupt
 ```
 
