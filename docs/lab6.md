@@ -9,7 +9,7 @@
 
 ## 2 实验环境
 
-* Docker in Lab3
+* Ubuntu 20.04, 22.04
 
 ## 3 背景知识
 
@@ -96,7 +96,7 @@
         ├── rand.c
         └── string.c
     ```
-* 在 lab6 中我们需要一些物理内存管理的接口，在此我们提供了 `kalloc` 接口 ( 见`mm.c` ) 给同学。同学可以用 `kalloc` 来申请 4KB 的物理页。由于引入了简单的物理内存管理，需要在 `_start` 的适当位置调用`mm_init`, 来初始化内存管理系统，并且在初始化时需要用一些自定义的宏，需要修改 `defs.h`, 在 `defs.h` `添加` 如下内容：
+* 在 lab6 中我们需要一些物理内存管理的接口，在此我们提供了 `kalloc` 接口 ( 见`mm.c` ) 。同学可以用 `kalloc` 来申请 4KB 的物理页。由于引入了简单的物理内存管理，需要在 `_start` 的适当位置调用`mm_init`, 来初始化内存管理系统，并且在初始化时需要用一些自定义的宏，需要修改 `defs.h`, 在 `defs.h` `添加` 如下内容：
     ```c++
     #define PHY_START 0x0000000080000000
     #define PHY_SIZE  128 * 1024 * 1024 // 128MB， QEMU 默认内存大小 
@@ -116,9 +116,9 @@
 
 #include "types.h"
 
-#define NR_TASKS  (1 + 31) // 用于控制 最大线程数量 （idle 线程 + 31 内核线程）
+#define NR_TASKS  (1 + 3) // 用于控制 最大线程数量 （idle 线程 + 3 内核线程）
 
-#define TASK_RUNNING    0 // 为了简化实验，所有的线程都只有一种状态
+#define TASK_RUNNING 0 // 为了简化实验，所有的线程都只有一种状态
 
 #define PRIORITY_MIN 1
 #define PRIORITY_MAX 10
@@ -210,7 +210,7 @@ void dummy();
         // 2. 设置 state 为 TASK_RUNNING;
         // 3. 由于 idle 不参与调度 可以将其 counter / priority 设置为 0
         // 4. 设置 idle 的 pid 为 0
-        // 5. 将 current 和 taks[0] 指向 idle
+        // 5. 将 current 和 task[0] 指向 idle
 
         /* YOUR CODE HERE */
 
@@ -224,26 +224,26 @@ void dummy();
         printk("...proc_init done!\n");
     }
     ```
-> Debug 提示：
-> 
-> 1. 修改 `proc.h` 中的 `NR_TASKS` 为一个比较小的值, 比如 5， 这样 除去 `task[0]` ( idle )，只需要初始化 4 个线程，方便调试。
-> 2. 注意以上的修改只是为了在做实验的过程中方便调试，最后一定记住要修改回去！！！
-
 #### 4.3.2 `__dummy` 与 `dummy` 介绍
 * `task[1]` ~ `task[NR_TASKS - 1]`都运行同一段代码 `dummy()` 我们在 `proc.c` 添加 `dummy()`:
     ```c++
     // arch/riscv/kernel/proc.c
 
     void dummy() {
-        uint64 MOD = 1000000007;
-        uint64 auto_inc_local_var = 0;
-        int last_counter = -1;
-        while(1) {
-            if (last_counter == -1 || current->counter != last_counter) {
-                last_counter = current->counter;
-                auto_inc_local_var = (auto_inc_local_var + 1) % MOD;
-                printk("[PID = %d] is running. auto_inc_local_var = %d\n", current->pid, auto_inc_local_var); 
-            }
+    uint64 MOD = 1000000007;
+    uint64 auto_inc_local_var = 0;
+    int last_counter = -1; // 记录上一个counter
+    int last_last_counter = -1; // 记录上上个counter
+    while(1) {
+        if (last_counter == -1 || current->counter != last_counter) {
+            last_last_counter = last_counter;
+            last_counter = current->counter;
+            auto_inc_local_var = (auto_inc_local_var + 1) % MOD;
+            printk("[PID = %d] is running. auto_inc_local_var = %d\n", current->pid, auto_inc_local_var); 
+        } else if((last_last_counter == 0 || last_last_counter == -1) && last_counter == 1) { // counter恒为1的情况
+            // 这里比较 tricky，不要求理解。
+            last_counter = 0; 
+            current->counter = 0;
         }
     }
     ```
@@ -298,8 +298,8 @@ void dummy();
     // arch/riscv/kernel/proc.c
 
     void do_timer(void) {
-        /* 1. 如果当前线程是 idle 线程 或者 当前线程运行剩余时间为0 进行调度 */
-        /* 2. 如果当前线程不是 idle 且 运行剩余时间不为0 则对当前线程的运行剩余时间减1 直接返回 */
+        /* 1. 将当前进程的counter--，如果结果大于零则直接返回*/
+        /* 2. 否则进行进程调度 */
 
         /* YOUR CODE HERE */
     }
@@ -307,151 +307,108 @@ void dummy();
         
 #### 4.3.5 实现线程调度
 
-本次实验我们需要实现两种调度算法：1.短作业优先调度算法，2.优先级调度算法。
+本次实验我们需要实现优先级调度算法，可参考 [Linux v0.11 调度算法实现](https://elixir.bootlin.com/linux/0.11/source/kernel/sched.c#L122) 。
+```c++
+// arch/riscv/kernel/proc.c
 
-##### 4.3.5.1 短作业优先调度算法
-
-* 当需要进行调度时按照一下规则进行调度：
-    * 遍历线程指针数组`task`(不包括 `idle` ，即 `task[0]` )，在所有运行状态 (`TASK_RUNNING`) 下的线程运行剩余时间`最少`的线程作为下一个执行的线程。
-    * 如果`所有`运行状态下的线程运行剩余时间都为0，则对 `task[1]` ~ `task[NR_TASKS-1]` 的运行剩余时间重新赋值 (使用 `rand()`) ，之后再重新进行调度。
-
-    ```c++
-    // arch/riscv/kernel/proc.c
-
-    void schedule(void) {
-        /* YOUR CODE HERE */
-    }
-    ```
-    > Debug 提示： 将 `NR_TASKS` 改为较小的值，调用 `printk` 将所有线程的信息打印出来。
-
-##### 4.3.5.2 优先级调度算法
-* 参考 [Linux v0.11 调度算法实现](https://elixir.bootlin.com/linux/0.11/source/kernel/sched.c#L122) 实现。
-    ```c++
-    // arch/riscv/kernel/proc.c
-
-    void schedule(void) {
-        /* YOUR CODE HERE */
-    }
-    ```
+void schedule(void) {
+    /* YOUR CODE HERE */
+}
+```
 
 ### 4.4 编译及测试
 - 由于加入了一些新的 .c 文件，可能需要修改一些Makefile文件，请同学自己尝试修改，使项目可以编译并运行。
-- 由于本次实验需要完成两个调度算法，因此需要两种调度算法可以使用[`gcc –D`](https://www.rapidtables.com/code/linux/gcc/gcc-d.html)选项进行控制。
-    - DSJF （短作业优先调度）。
-    - DPRIORITY （优先级调度）。
-    - 在`proc.c`中使用 `#ifdef` , `#endif` 来控制代码。 修改Makefile中的 `CFLAG = ${CF} ${INCLUDE} -DSJF / -DPRIORITY` (作业提交的时候 `Makefile` 选择任意一个都可以)
+- 关于进程切换和进程设置的输出并为在框架代码中给出，需要自主添加到相对应的位置；并去掉lab5中关于时钟中断的相关输出。最终结果应和下方一致。
 
-- 短作业优先调度输出示例 (为了便于展示，这里一共只初始化了 4 个线程) 同学们最后提交时需要 保证 NR_TASKS 为 32 不变
-    ```bash
-    OpenSBI v0.9
-      ____                    _____ ____ _____ 
-     / __ \                  / ____|  _ \_   _|
-    | |  | |_ __   ___ _ __ | (___ | |_) || |  
-    | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |  
-    | |__| | |_) |  __/ | | |____) | |_) || |_ 
-     \____/| .__/ \___|_| |_|_____/|____/_____|
-           | |                                 
-           |_|                                 
-                                                    
-    ...
+优先级调度输出示例如下所示： 
+```bash
+OpenSBI v1.1-80-g22f38ee
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
 
-    Boot HART MIDELEG         : 0x0000000000000222
-    Boot HART MEDELEG         : 0x000000000000b109
-                        
-    ...mm_init done!
-    ...proc_init done!                                                                               
-    Hello RISC-V
-    idle process is running!
+Platform Name             : riscv-virtio,qemu
+Platform Features         : medeleg
+Platform HART Count       : 1
+Platform IPI Device       : aclint-mswi
+Platform Timer Device     : aclint-mtimer @ 10000000Hz
+Platform Console Device   : uart8250
+Platform HSM Device       : ---
+Platform PMU Device       : ---
+Platform Reboot Device    : sifive_test
+Platform Shutdown Device  : sifive_test
+Firmware Base             : 0x80000000
+Firmware Size             : 196 KB
+Runtime SBI Version       : 1.0
 
-    SET [PID = 1 COUNTER = 10]
-    SET [PID = 2 COUNTER = 10]
-    SET [PID = 3 COUNTER = 5]
-    SET [PID = 4 COUNTER = 2]
+Domain0 Name              : root
+Domain0 Boot HART         : 0
+Domain0 HARTs             : 0*
+Domain0 Region00          : 0x0000000002000000-0x000000000200ffff (I)
+Domain0 Region01          : 0x0000000080000000-0x000000008003ffff ()
+Domain0 Region02          : 0x0000000000000000-0xffffffffffffffff (R,W,X)
+Domain0 Next Address      : 0x0000000080200000
+Domain0 Next Arg1         : 0x0000000082200000
+Domain0 Next Mode         : S-mode
+Domain0 SysReset          : yes
 
-    switch to [PID = 4 COUNTER = 2] 
-    [PID = 4] is running. auto_inc_local_var = 1
-    [PID = 4] is running. auto_inc_local_var = 2
-    
-    switch to [PID = 3 COUNTER = 5] 
-    [PID = 3] is running. auto_inc_local_var = 1
-    .....
-    [PID = 3] is running. auto_inc_local_var = 5
-    
-    switch to [PID = 2 COUNTER = 10] 
-    [PID = 2] is running. auto_inc_local_var = 1
-    ...
-    [PID = 2] is running. auto_inc_local_var = 10
-    
-    switch to [PID = 1 COUNTER = 10] 
-    [PID = 1] is running. auto_inc_local_var = 1
-    ...
-    [PID = 1] is running. auto_inc_local_var = 10
-
-    SET [PID = 1 COUNTER = 9]
-    SET [PID = 2 COUNTER = 4]
-    SET [PID = 3 COUNTER = 4]
-    SET [PID = 4 COUNTER = 10]
-    
-    switch to [PID = 3 COUNTER = 4] 
-    [PID = 3] is running. auto_inc_local_var = 6
-    ...
-    [PID = 3] is running. auto_inc_local_var = 9
-
-    ```
-- 优先级调度输出示例
-    ```bash
-    OpenSBI v0.9
-      ____                    _____ ____ _____ 
-     / __ \                  / ____|  _ \_   _|
-    | |  | |_ __   ___ _ __ | (___ | |_) || |  
-    | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |  
-    | |__| | |_) |  __/ | | |____) | |_) || |_ 
-     \____/| .__/ \___|_| |_|_____/|____/_____|
-           | |                                 
-           |_|                                 
-                                                    
-    ...
-
-    Boot HART MIDELEG         : 0x0000000000000222
-    Boot HART MEDELEG         : 0x000000000000b109
-                        
-    ...mm_init done!
-    ...proc_init done!                                                                               
-    Hello RISC-V
-    idle process is running!
-
-    SET [PID = 1 PRIORITY = 1 COUNTER = 1]                                                       
-    SET [PID = 2 PRIORITY = 4 COUNTER = 4]        
-    SET [PID = 3 PRIORITY = 10 COUNTER = 10]                                                       
-    SET [PID = 4 PRIORITY = 4 COUNTER = 4]
-    
-    switch to [PID = 3 PRIORITY = 10 COUNTER = 10]                                                   
-    [PID = 3] is running. auto_inc_local_var = 1                                                     
-    ...
-    [PID = 3] is running. auto_inc_local_var = 10
-
-    switch to [PID = 4 PRIORITY = 4 COUNTER = 4] 
-    [PID = 4] is running. auto_inc_local_var = 1
-    ...
-    [PID = 4] is running. auto_inc_local_var = 4
-    
-    switch to [PID = 2 PRIORITY = 4 COUNTER = 4] 
-    [PID = 2] is running. auto_inc_local_var = 1
-    ...
-    [PID = 2] is running. auto_inc_local_var = 4
-    
-    switch to [PID = 1 PRIORITY = 1 COUNTER = 1] 
-    [PID = 1] is running. auto_inc_local_var = 1
-
-    SET [PID = 1 PRIORITY = 1 COUNTER = 1]
-    SET [PID = 2 PRIORITY = 4 COUNTER = 4]
-    SET [PID = 3 PRIORITY = 10 COUNTER = 10]
-    SET [PID = 4 PRIORITY = 4 COUNTER = 4]
-
-    switch to [PID = 3 PRIORITY = 10 COUNTER = 10] 
-    [PID = 3] is running. auto_inc_local_var = 11
-    ...
-    ```
+Boot HART ID              : 0
+Boot HART Domain          : root
+Boot HART Priv Version    : v1.10
+Boot HART Base ISA        : rv64imafdc
+Boot HART ISA Extensions  : none
+Boot HART PMP Count       : 16
+Boot HART PMP Granularity : 4
+Boot HART PMP Address Bits: 54
+Boot HART MHPM Count      : 0
+Boot HART MIDELEG         : 0x0000000000000222
+Boot HART MEDELEG         : 0x000000000000b109
+...mm_init done!
+...proc_init done!
+2022 ZJU Computer System II
+SET [PID = 1, PRIORITY = 1, COUNTER = 0]
+SET [PID = 2, PRIORITY = 4, COUNTER = 0]
+SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
+[PID = 1] is running. auto_inc_local_var = 1
+switch to [PID = 2, PRIORITY = 4, COUNTER = 4]
+[PID = 2] is running. auto_inc_local_var = 1
+[PID = 2] is running. auto_inc_local_var = 2
+[PID = 2] is running. auto_inc_local_var = 3
+[PID = 2] is running. auto_inc_local_var = 4
+switch to [PID = 3, PRIORITY = 5, COUNTER = 5]
+[PID = 3] is running. auto_inc_local_var = 1
+[PID = 3] is running. auto_inc_local_var = 2
+[PID = 3] is running. auto_inc_local_var = 3
+[PID = 3] is running. auto_inc_local_var = 4
+[PID = 3] is running. auto_inc_local_var = 5
+SET [PID = 1, PRIORITY = 1, COUNTER = 0]
+SET [PID = 2, PRIORITY = 4, COUNTER = 0]
+SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
+[PID = 1] is running. auto_inc_local_var = 2
+switch to [PID = 2, PRIORITY = 4, COUNTER = 4]
+[PID = 2] is running. auto_inc_local_var = 5
+[PID = 2] is running. auto_inc_local_var = 6
+[PID = 2] is running. auto_inc_local_var = 7
+[PID = 2] is running. auto_inc_local_var = 8
+switch to [PID = 3, PRIORITY = 5, COUNTER = 5]
+[PID = 3] is running. auto_inc_local_var = 6
+[PID = 3] is running. auto_inc_local_var = 7
+[PID = 3] is running. auto_inc_local_var = 8
+[PID = 3] is running. auto_inc_local_var = 9
+[PID = 3] is running. auto_inc_local_var = 10
+SET [PID = 1, PRIORITY = 1, COUNTER = 0]
+SET [PID = 2, PRIORITY = 4, COUNTER = 0]
+SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
+[PID = 1] is running. auto_inc_local_var = 3
+```
 
 # 思考题
 1. 在 RV64 中一共用 32 个通用寄存器， 为什么 `context_switch` 中只保存了14个？

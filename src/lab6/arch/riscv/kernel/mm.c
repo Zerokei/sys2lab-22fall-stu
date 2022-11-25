@@ -4,7 +4,7 @@
 
 #include "printk.h"
 
-extern char _ekernel[];
+extern char _end[];
 
 struct {
     struct run *freelist;
@@ -43,6 +43,6 @@ void kfreerange(char *start, char *end) {
 }
 
 void mm_init(void) {
-    kfreerange(_ekernel, (char *)PHY_END);
+    kfreerange(_end, (char *)PHY_END);
     printk("...mm_init done!\n");
 }

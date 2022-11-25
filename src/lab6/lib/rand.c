@@ -31,5 +31,5 @@ uint64 rand() {
     
 	t++;
 
-    return (uint64)r[t - 1 + 344] % 10 + 1;
+    return (uint64)r[t - 1 + 344] % 5 + 1;
 }
