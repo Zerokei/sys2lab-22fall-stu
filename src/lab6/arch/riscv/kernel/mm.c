@@ -43,6 +43,6 @@ void kfreerange(char *start, char *end) {
 }
 
 void mm_init(void) {
-    kfreerange(_end, (char *)PHY_END);
+    kfreerange(_end + 4096, (char *)PHY_END);
     printk("...mm_init done!\n");
 }
