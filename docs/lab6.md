@@ -121,7 +121,7 @@
 #define TASK_RUNNING 0 // 为了简化实验，所有的线程都只有一种状态
 
 #define PRIORITY_MIN 1
-#define PRIORITY_MAX 10
+#define PRIORITY_MAX 5
 
 /* 用于记录 `线程` 的 `内核栈与用户栈指针` */
 /* (lab6中无需考虑，在这里引入是为了之后实验的使用) */
