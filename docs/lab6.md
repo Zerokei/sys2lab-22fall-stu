@@ -307,7 +307,7 @@ void dummy();
         
 #### 4.3.5 实现线程调度
 
-本次实验我们需要实现优先级调度算法，可参考 [Linux v0.11 调度算法实现](https://elixir.bootlin.com/linux/0.11/source/kernel/sched.c#L122) 。
+本次实验我们需要实现进程调度算法(要求最终执行结果和4.4给出的结果一致)，可参考 [Linux v0.11 调度算法实现](https://elixir.bootlin.com/linux/0.11/source/kernel/sched.c#L122) 。
 ```c++
 // arch/riscv/kernel/proc.c
 
