@@ -371,9 +371,9 @@ Boot HART MEDELEG         : 0x000000000000b109
 ...mm_init done!
 ...proc_init done!
 2022 ZJU Computer System II
-SET [PID = 1, PRIORITY = 1, COUNTER = 0]
-SET [PID = 2, PRIORITY = 4, COUNTER = 0]
-SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+SET [PID = 1, PRIORITY = 1, COUNTER = 1]
+SET [PID = 2, PRIORITY = 4, COUNTER = 4]
+SET [PID = 3, PRIORITY = 5, COUNTER = 5]
 switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
 [PID = 1] is running. auto_inc_local_var = 1
 switch to [PID = 2, PRIORITY = 4, COUNTER = 4]
@@ -387,9 +387,9 @@ switch to [PID = 3, PRIORITY = 5, COUNTER = 5]
 [PID = 3] is running. auto_inc_local_var = 3
 [PID = 3] is running. auto_inc_local_var = 4
 [PID = 3] is running. auto_inc_local_var = 5
-SET [PID = 1, PRIORITY = 1, COUNTER = 0]
-SET [PID = 2, PRIORITY = 4, COUNTER = 0]
-SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+SET [PID = 1, PRIORITY = 1, COUNTER = 1]
+SET [PID = 2, PRIORITY = 4, COUNTER = 4]
+SET [PID = 3, PRIORITY = 5, COUNTER = 5]
 switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
 [PID = 1] is running. auto_inc_local_var = 2
 switch to [PID = 2, PRIORITY = 4, COUNTER = 4]
@@ -403,9 +403,9 @@ switch to [PID = 3, PRIORITY = 5, COUNTER = 5]
 [PID = 3] is running. auto_inc_local_var = 8
 [PID = 3] is running. auto_inc_local_var = 9
 [PID = 3] is running. auto_inc_local_var = 10
-SET [PID = 1, PRIORITY = 1, COUNTER = 0]
-SET [PID = 2, PRIORITY = 4, COUNTER = 0]
-SET [PID = 3, PRIORITY = 5, COUNTER = 0]
+SET [PID = 1, PRIORITY = 1, COUNTER = 1]
+SET [PID = 2, PRIORITY = 4, COUNTER = 4]
+SET [PID = 3, PRIORITY = 5, COUNTER = 5]
 switch to [PID = 1, PRIORITY = 1, COUNTER = 1]
 [PID = 1] is running. auto_inc_local_var = 3
 ```
