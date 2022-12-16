@@ -127,7 +127,7 @@ $ qemu-system-riscv32 -nographic -machine virt -bios path/to/sim.elf -S -s
 
 本次实验需要新增至少3个CSR寄存器：mtvec, mepc, mstatus，以保证程序的正确执行。CSR寄存器的长度为 `MXLEN-bit` ，在本次实验中取 `MXLEN` 的值为 `32`。我们推荐将CSR寄存器封装在一个独立的CSR模块（module）中，将实现的CSR寄存器通过接口与流水线CPU进行交互。
 
-下面是3个寄存器的简要介绍，我们在实验中只要求实现某些寄存器的部分功能，如果想要了解完整的处理机制可以参考[RISCV官网](https://github.com/riscv/riscv-isa-manual/releases/download/Priv-v1.12/riscv-privileged-20211203.pdf)。
+下面是3个寄存器的简要介绍，我们在实验中只要求实现某些寄存器的部分功能，如果想要了解完整的处理机制可以参考官方手册。
 
 1. mtvec(Machine Trap-Vector Base-Address Register)寄存器是可读可写寄存器，存储异常处理代码的地址，本次实验只需要实现`Direct`模式，即发生异常时跳转到mtvec所指向的地址进行处理。
 
