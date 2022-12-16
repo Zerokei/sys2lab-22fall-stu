@@ -142,7 +142,7 @@ struct task_struct {
     struct thread_info* thread_info;
     uint64 state;    // 线程状态
     uint64 counter;  // 运行剩余时间 
-    uint64 priority; // 运行优先级 1最低 10最高
+    uint64 priority; // 运行优先级
     uint64 pid;      // 线程id
 
     struct thread_struct thread;
