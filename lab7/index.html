@@ -1,0 +1,1054 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://zju-sys.pages.zjusct.io/sys2lab-22fall-stu/lab7/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>实验指导七 - 浙江大学22年秋冬系统贯通二实验</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="浙江大学22年秋冬系统贯通二实验" class="md-header__button md-logo" aria-label="浙江大学22年秋冬系统贯通二实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            浙江大学22年秋冬系统贯通二实验
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验指导七
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zjusec/sys2lab-22fall-stu
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="浙江大学22年秋冬系统贯通二实验" class="md-nav__button md-logo" aria-label="浙江大学22年秋冬系统贯通二实验" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    浙江大学22年秋冬系统贯通二实验
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://git.zju.edu.cn/zju-sys/sys2lab-22fall-stu/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    zjusec/sys2lab-22fall-stu
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        实验指导零
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          实验指导一
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验指导一" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验指导一
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1-1/" class="md-nav__link">
+        第一部分
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1-2/" class="md-nav__link">
+        第二部分
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          实验指导二
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验指导二" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          实验指导二
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2-1/" class="md-nav__link">
+        第一部分
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2-2/" class="md-nav__link">
+        第二部分
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        实验指导三
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        实验指导四
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        实验指导五
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        实验指导六
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          实验指导七
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        实验指导七
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1 实验目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2 实验环境
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3 背景介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4 实验步骤
+  </a>
+  
+    <nav class="md-nav" aria-label="4 实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 准备工作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-qemu" class="md-nav__link">
+    4.2 QEMU 运行与调试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-csr" class="md-nav__link">
+    4.3 增加 CSR 寄存器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    4.4 增加特权态指令
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    4.5 增加异常处理逻辑
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46" class="md-nav__link">
+    4.6 波形仿真调试
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5 实验步骤（进阶）
+  </a>
+  
+    <nav class="md-nav" aria-label="5 实验步骤（进阶）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    5.1 准备工作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-csr" class="md-nav__link">
+    5.2 增加 CSR 寄存器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    5.3 增加异常处理逻辑
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6 验收与提交要求
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        常见问题及解答
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1 实验目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2 实验环境
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3 背景介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4 实验步骤
+  </a>
+  
+    <nav class="md-nav" aria-label="4 实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 准备工作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-qemu" class="md-nav__link">
+    4.2 QEMU 运行与调试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-csr" class="md-nav__link">
+    4.3 增加 CSR 寄存器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    4.4 增加特权态指令
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    4.5 增加异常处理逻辑
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46" class="md-nav__link">
+    4.6 波形仿真调试
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5 实验步骤（进阶）
+  </a>
+  
+    <nav class="md-nav" aria-label="5 实验步骤（进阶）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    5.1 准备工作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-csr" class="md-nav__link">
+    5.2 增加 CSR 寄存器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    5.3 增加异常处理逻辑
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6 验收与提交要求
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="7">实验 7：综合实验</h1>
+<h2 id="1">1 实验目的</h2>
+<ul>
+<li>学习 OS 在硬件层面的抽象</li>
+<li>完善自己的 CPU Core，运行起一个简易 ELF 程序：Naive Kernel</li>
+</ul>
+<h2 id="2">2 实验环境</h2>
+<ul>
+<li><strong>HDL</strong>：Verilog</li>
+<li><strong>IDE</strong>：Vivado</li>
+<li><strong>开发板</strong>：Nexys A7</li>
+<li><strong>软件辅助环境</strong>：Ubuntu 20.04, 22.04</li>
+</ul>
+<h2 id="3">3 背景介绍</h2>
+<p>在系统二贯通课程的学习中，我们既学习了硬件系统（体系结构）也学习了软件系统（操作系统）。在这最后一个实验中，我们要尝试将一个简易的 <strong>32</strong> 位 ELF 程序：Naive Kernel 运行在自己编写的 CPU Core 上。</p>
+<p>Naive Kernel代码，实现的功能类似于<code>lab6</code>中的内容，初始化多个进程，待时间片耗尽后进行调度，在基础要求中只会发生调度导致的异常，按照<code>lab6</code>中的调度逻辑<code>trap_handler -&gt; traps -&gt; schedule -&gt; switch_to -&gt; __switch_to</code>顺序执行。</p>
+<p>为了降低实验难度，Naive Kernel 并不能算得上一个<strong>真正</strong>的操作系统，比如：</p>
+<ul>
+<li>Naive Kernel 只有一个特权态（Machine Mode）</li>
+<li>Naive Kernel 的中断栈是每个进程自己维护的</li>
+<li>Naive Kernel 进程出让时间片的方式是自己减少进程特有的 Counter，而并不是通过外部的时钟中断</li>
+<li>...</li>
+</ul>
+<p>Naive Kernel 不使用串口或其他协议与外界通信，而是使用 gp 寄存器来标志当前的运行状态：</p>
+<ul>
+<li>当进程切换后，gp 的值更新为 <code>0x100 + task-id</code></li>
+<li>当处理了 <code>unimp</code> 指令带来的 <code>Illegal Instruction</code> 异常后，gp 的值更新为 mcause 的值（进阶版）</li>
+</ul>
+<h2 id="4">4 实验步骤</h2>
+<p>首先需要清楚，本次的实验的主要工作是基于我们在 lab2 中完成的流水线 CPU 进行的。</p>
+<h3 id="41">4.1 准备工作</h3>
+<p>首先从仓库中同步如下代码</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code>lab7
+├── kernel
+│   ├── Makefile
+│   ├── build-advance
+│   │   ├── head.o
+│   │   ├── kernel.bin
+│   │   ├── kernel.coe
+│   │   ├── kernel.dump
+│   │   ├── kernel.elf
+│   │   ├── kernel.sim
+│   │   ├── main.o
+│   │   └── sim.elf
+│   ├── build-normal
+│   │   ├── head.o
+│   │   ├── kernel.bin
+│   │   ├── kernel.coe
+│   │   ├── kernel.dump
+│   │   ├── kernel.elf
+│   │   ├── kernel.sim
+│   │   ├── main.o
+│   │   └── sim.elf
+│   ├── head.S
+│   ├── kernel.lds
+│   ├── main.c
+│   ├── main.h
+│   └── sim.lds
+└── memory
+    ├── myRam.v
+    └── myRom.v
+</code></pre></div></td></tr></table></div>
+<p>在 lab7 下有两个子文件夹，其中 <code>memory</code> 是要添加在 Vivado 工程中的 <code>.v</code> 文件，<code>kernel</code> 则是要运行在我们自己编写的 CPU Core 上的程序</p>
+<p><code>memory/myRom.v</code> 文件的内容如下所示</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="n">myRom</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">input</span><span class="w"> </span><span class="p">[</span><span class="mh">10</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">address</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">output</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">out</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">reg</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rom</span><span class="w"> </span><span class="p">[</span><span class="mh">0</span><span class="o">:</span><span class="mh">2047</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">localparam</span><span class="w"> </span><span class="n">FILE_PATH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;kernel.sim&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 修改为你的 kernel.sim 的路径</span>
+<span class="w">    </span><span class="k">initial</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w">        </span><span class="nb">$readmemh</span><span class="p">(</span><span class="n">FILE_PATH</span><span class="p">,</span><span class="w"> </span><span class="n">rom</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">assign</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rom</span><span class="p">[</span><span class="n">address</span><span class="p">];</span><span class="w"></span>
+<span class="k">endmodule</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>之前我们采用的是通过 <code>.coe</code> 文件的方式来完成 IP 核中的数据装载，但事实上，<code>.coe</code> 文件不够灵活，每次修改 <code>.coe</code> 文件，都要重新生产 IP 核。因此，我们在本次实验中将采用 <code>$readmemh</code> 系统函数初始化指令数据，并采用寄存器数组代替原来的 IP 核。这样，每次需要加载新的文件时，我们只需对变量 <code>FILE_PATH</code> 修改为相应的路径即可。 <code>$readmemh</code> 会自动从相应的文件中加载最新的数据。</p>
+<p>请在工程的适当位置添加如下代码，用于将 <code>myRom</code> 实例化，并将原来的用 Block Memory Generator 生成的 IP 核的实例化代码注释掉</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">myRom</span><span class="w"> </span><span class="n">rom_unit</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">address</span><span class="p">(</span><span class="n">pc_out</span><span class="p">[</span><span class="mh">12</span><span class="o">:</span><span class="mh">2</span><span class="p">]),</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">out</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>除此之外，请仿照上述过程将 <code>memory/myRam.v</code> 也添加到项目中。</p>
+<p>而在 <code>kernel</code> 文件夹下 <code>build-advance</code> 和 <code>build-normal</code> 分别是做 bonus 和不做 bonus 编译出的文件。请将 <code>build-normal</code> 目录下的 <code>kernel.sim</code> 加载到程序中，而相应的汇编文件我们可以查看 <code>kernel.dump</code></p>
+<p>而 <code>head.S</code>, <code>main.c</code>, <code>main.h</code> 则是程序的源代码，请同学们在实验开始前务理解源代码。</p>
+<p>在编译得到的代码中可能会出现我们之前没有要求实现的指令，如 <code>auipc</code>，需要同学们根据实际情况在本次实验中补足，相应的指令请参考<code>spec</code>手册实现。</p>
+<p>由于上板和 QEMU 调试 Naive Kernel 需要不同的内存起始地址（上板的地址从 0x0 开始，QEMU 调试的地址从 0x80000000 开始），我们通过 lds 文件控制了加载地址。在相应 <code>build</code> 文件夹下的 <code>sim.elf</code> 是供 QEMU 调试用的 ELF。</p>
+<p>由于本次实验的代码量较大，调试起来会有一定难度，建议同学们在出现问题时从某一条或者某一类指令可能出错分析，一定要先确保要求实现的指令都可以正常执行，再跟踪波形调试。</p>
+<h3 id="42-qemu">4.2 QEMU 运行与调试</h3>
+<p>由于相应的工具链配置起来十分麻烦，因此我们已经帮大家做好了编译的工作，但是，我们仍然可以利用 QEMU 进行调试</p>
+<p>Naive Kernel 不需要使用 OpenSBI 作为 Bootloader，因此在 QEMU 选项中使用 <code>-bios</code> 而非 <code>-kernel</code> 来加载 ELF 文件。因此为了调试 Naive Kernel，使用如下命令：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$ qemu-system-riscv32 -nographic -machine virt -bios path/to/sim.elf -S -s
+</code></pre></div></td></tr></table></div>
+<p>其他流程均与之前的实验相似。</p>
+<h3 id="43-csr">4.3 增加 CSR 寄存器</h3>
+<p>本次实验需要新增至少3个CSR寄存器：mtvec, mepc, mstatus，以保证程序的正确执行。CSR寄存器的长度为 <code>MXLEN-bit</code> ，在本次实验中取 <code>MXLEN</code> 的值为 <code>32</code>。我们推荐将CSR寄存器封装在一个独立的CSR模块（module）中，将实现的CSR寄存器通过接口与流水线CPU进行交互。</p>
+<p>下面是3个寄存器的简要介绍，我们在实验中只要求实现某些寄存器的部分功能，如果想要了解完整的处理机制可以参考官方手册。</p>
+<ol>
+<li>
+<p>mtvec(Machine Trap-Vector Base-Address Register)寄存器是可读可写寄存器，存储异常处理代码的地址，本次实验只需要实现<code>Direct</code>模式，即发生异常时跳转到mtvec所指向的地址进行处理。</p>
+</li>
+<li>
+<p>mepc(Machine Exception Program Counter)寄存器是可读可写寄存器，存储发生异常时的地址。</p>
+</li>
+<li>
+<p>mstatus(Machine Status Register)寄存器是可读可写寄存器，存储M模式下的异常相关的信息，在本次实验中我们只需要实现其中的<code>MIE(3)</code>即可。</p>
+</li>
+</ol>
+<h3 id="44">4.4 增加特权态指令</h3>
+<ol>
+<li>csrr[w/s/c][i]是对于CSR寄存器进行读写操作的指令，这里以<code>csrrw rd, csr, rs</code>举例说明，csrrw的指令含义是Atomic Read/Write CSR，原子地读写CSR寄存器，即原子性地完成<code>gpr[rd] = csr, csr = gpr[rs]</code>一读一写两个操作。与之相类似，csrrs即set操作<code>gpr[rd] = csr, csr = csr | gpr[rs]</code>，csrrc即clear操作<code>gpr[rd] = csr, csr = csr &amp; ~gpr[rs]</code>，[i]即为立即数指令，更多相关的细节可以参考<a href="https://github.com/riscv/riscv-isa-manual/releases/download/Ratified-IMAFDQC/riscv-spec-20191213.pdf">RISCV官网</a>。</li>
+<li>ecall指令的含义是向执行环境发出请求，我们在<code>lab4~6</code>中实现的<code>sbi_ecall</code>就是通过<code>ecall</code>向权限更高的M模式发送请求，完成类似于打印字符，设置时钟计时等。在本次实验中，我们只实现M模式，在执行指令<code>ecall</code>后会触发异常<code>Environmrnt call from M-mode</code>，需要对相关寄存器进行设置并跳转到异常处理地址。</li>
+<li>mret指令的含义是从M模式的Trap下返回，在本次实验中，我们只实现M模式，因此无需考虑所处模式的变化，在执行指令<code>mret</code>后会从Trap中返回到正常的代码执行流中，即寄存器<code>mepc</code>所储存的地址。（请思考当发生异常和中断时，返回地址有什么区别）</li>
+</ol>
+<blockquote>
+<p>提示：在 csrr[w/s/c][i] 指令中会出现数据冒险，这里推荐使用 stall 的方式处理相应的冒险。 </p>
+</blockquote>
+<h3 id="45">4.5 增加异常处理逻辑</h3>
+<p>异常处理逻辑与控制跳转类似，相似点是以流水线内部的视角来看都是跳转到一个地址继续执行，只不过异常是跳转到mtvec寄存器所在的地址，不同之处在于CSR模块内部的处理，异常会导致相关的CSR寄存器状态发生变化。在本次实验中，我们只实现M模式，以及最基本的三个CSR寄存器，当发生<code>ecall</code>异常时，会导致<code>mepc</code>寄存器发生变化，当执行<code>mret</code>时，需要返回<code>mepc</code>所指向的地址。</p>
+<p>这里要注意异常的机制设计，先思考好异常在哪个阶段判断，在异常发生时哪些指令应该被执行，哪些指令不该被执行，以及流水线的刷新，传递等问题。</p>
+<p>CSR模块的基本功能是对CSR寄存器进行读写，需要的接口即为<code>csr_write</code>使能, <code>addr</code>CSR编号, <code>din, dout</code>数据端口。考虑到<code>ecall</code>命令执行时需要跳转到<code>mtvec</code>并将当前的<code>pc</code>写入<code>mepc</code>，因此还需要<code>ecall</code>信号端口，<code>pc</code>输入端口和<code>mepc</code>写端口，如果实现了高阶的功能则还需要增加<code>mcause</code>的写端口。</p>
+<h3 id="46">4.6 波形仿真调试</h3>
+<p>本次实验中我们将测试文件的指令数提升了若干倍，也使得调试难度增大了许多，我们给出以下几点参考建议：</p>
+<ol>
+<li>推荐先理解程序的执行过程，再开始实验，由于 <code>COUNTER_INIT</code> 的值较大，因此波形可能会很长，可以在仿真时将 Vivado 中指定运行时间增加到一个较大的值，如 10,000 us，然后每次运行相应的时间，关注 <code>gp</code> 寄存器的值是否如预期的变化。</li>
+<li>实验中<code>csr[c/s/w]</code>指令较少，在调试时可以先关注<code>_start</code>函数中该指令的正确性。</li>
+<li>在调试时可以手动跟踪第一次由task0切换到task1的全过程，这个过程不算特别长，可以手动查看执行流与关键寄存器的值，这里比较重要的寄存器是<code>a5</code>，在执行到函数<code>proc</code>中时，<code>a5</code>寄存器存储的是<code>current-&gt;counter</code>，可以通过<code>a5</code>的变化大致观察到程序运行过程。确保上述过程正确后再添加<code>gp</code>寄存器查看，<code>gp</code>寄存器存储的是<code>0x100 + task_id</code>，观察是否是从小到大循环变化，即可验证仿真是否通过。</li>
+<li>实现时需要同学们考虑RAM的大小问题，本次实验的数据段地址位于<code>[0x500, 0x500 + 0x100 * task_id]</code>，需要扩大RAM的大小，请同学们调整好相关的宽度问题。</li>
+<li>注意在进程第一次被调度时不会修改<code>gp</code>的值。</li>
+</ol>
+<h2 id="5">5 实验步骤（进阶）</h2>
+<h3 id="51">5.1 准备工作</h3>
+<p>将 <code>kernel.sim</code> 换成 <code>build-advance</code> 下的文件即可。进阶版在<code>counter = 0x555</code>时会执行一条未定义指令，触发异常后<code>kernel</code>会通过软件将<code>gp</code>的值改写为<code>mcause</code>的值，即不需要通过硬件实现这一要求，只需要实现新增的CSR寄存器和异常判断逻辑即可。</p>
+<h3 id="52-csr">5.2 增加 CSR 寄存器</h3>
+<p>mcause(Machine Cause Register)寄存器保存了发生异常的原因，当发生了变化为M模式处理的异常时，mcause寄存器应当写入发生异常的原因，在privileged手册中可以查看RISCV对不同的<code>Interrupt</code>和<code>Exception</code>规定的编号。</p>
+<h3 id="53">5.3 增加异常处理逻辑</h3>
+<p>illegal instruction：当读取到非法指令时，触发该异常，跳转至mtvec，保存mepc和mcause。</p>
+<h2 id="6">6 验收与提交要求</h2>
+<p>需要注意的是，本次作业是硬件实验，因此 <strong>需要</strong> 验收。验收时请将 <code>gp</code> 寄存器和 <code>pc</code> 的值输出到板子上，方便我们查看。而在学在浙大上的提交与之前硬件实验一致只需要实验报告即可，无需提交代码。验收的两种要求如下</p>
+<ul>
+<li>
+<p>基本要求：实现M特权态，增加指令<code>ecall, mret, csr/[s/w/c/]</code>，增加CSR寄存器<code>mtvec, mepc, mstatus</code>，实现异常机制（可以拿到全部分数）</p>
+</li>
+<li>
+<p>高阶要求：编译运行ADVANCE kernel，增加CSR寄存器<code>mcause</code>，增加<code>illegal instruction</code>异常（可以拿到全部分数和额外的 bonus）</p>
+</li>
+</ul>
+<p>由于疫情原因，本次的验收将会采用线上验收的方式进行，大家私戳任何一位助教即可，具体要求如下：</p>
+<ol>
+<li>首先说明你是否做了 bonus ，然后拍摄上板的视频，开启连续运行模式（即将 switch[15] 拨上去），首先展示 <code>pc</code> 的变化情况（大概十几秒），然后停止连续运行模式并按下 reset 键，控制板子输出 <code>gp</code> 寄存器的值，再开启连续运行模式，展示 <code>gp</code> 寄存器变化的情况（大概十几秒）。上板视频到此结束</li>
+<li>然后请录制一个讲解代码实现的视频，请使用相应的录屏软件录制自己的屏幕（请不要使用手机拍摄电脑屏幕），并结合自己的代码讲讲自己的大致实现过程（也可以通过画图的方式辅助讲解）。请保证自己的讲解清楚且完整，否则我们可能会通过语音通话并要求共享屏幕的方式进行提问。</li>
+<li>如果实在没有录制条件，也可把自己的代码截图发给我们，我们会针对你的代码进行相应的提问，如果能准确且及时的回答出问题即可通过验收。</li>
+</ol>
+<p>除此之外，再次提醒实验报告中 <strong>需要</strong> 对仿真的结果进行截图并作以简要的说明，否则可能会被扣去相应的分数</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../lab6/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 实验指导六" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              实验指导六
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../faq/" class="md-footer__link md-footer__link--next" aria-label="Next: 常见问题及解答" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              常见问题及解答
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand", "navigation.top"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
